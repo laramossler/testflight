@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Skyhound — business class, found and booked</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --ink: #0b0d0f;
+    --ink-2: #4a5058;
+    --ink-3: #8a9099;
+    --line: #e6e8ec;
+    --line-strong: #d3d7de;
+    --card: #ffffff;
+    --tint-blue: #eaf0ff;
+    --tint-blue-ink: #2d4cdb;
+    --tint-blue-border: #4f6ef7;
+    --tint-purple: #efe9ff;
+    --tint-purple-ink: #6a4bd6;
+    --tint-gray: #eef0f3;
+    --tint-gray-ink: #4a5058;
+    --green: #0e8a4f;
+    --footer-bg: #f6f3e8;
+    --chip-bg: #ffffff;
+    --chip-active-bg: #eaf0ff;
+    --chip-active-ink: #2d4cdb;
+    --shadow: 0 1px 2px rgba(15, 18, 22, 0.04);
+    --radius: 14px;
+    --radius-sm: 10px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #f4f5f7; color: var(--ink); }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .app {
+    max-width: 920px;
+    margin: 32px auto;
+    padding: 28px 32px 32px;
+    background: var(--bg);
+    border-radius: 18px;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 22px;
+  }
+  .title { font-size: 30px; font-weight: 700; letter-spacing: -0.01em; margin: 0 0 6px; }
+  .subtitle { color: var(--ink-2); margin: 0; }
+  .auto-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ink-2);
+    font-size: 14px;
+    margin-top: 6px;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #1bbf6a;
+    box-shadow: 0 0 0 3px rgba(27, 191, 106, 0.15);
+  }
+
+  /* Search bar */
+  .search {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr auto;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: #fff;
+  }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .field label {
+    font-size: 12px;
+    color: var(--ink-3);
+    font-weight: 500;
+  }
+  .field input,
+  .field select {
+    appearance: none;
+    -webkit-appearance: none;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+    font: inherit;
+    color: var(--ink);
+    background: #fff;
+    width: 100%;
+  }
+  .field select {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path fill='none' stroke='%234a5058' stroke-width='1.5' d='M2.5 4.5l3.5 3.5 3.5-3.5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+  }
+  .field input:focus,
+  .field select:focus {
+    outline: none;
+    border-color: var(--tint-blue-border);
+    box-shadow: 0 0 0 3px rgba(79, 110, 247, 0.15);
+  }
+  .hunt {
+    align-self: end;
+    height: 40px;
+    padding: 0 18px;
+    background: #fff;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    font: inherit;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .hunt:hover { background: #f7f8fa; }
+
+  /* Filter chips */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 18px 0 8px;
+  }
+  .chip {
+    border: 1px solid var(--line-strong);
+    background: var(--chip-bg);
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-size: 13px;
+    color: var(--ink-2);
+    cursor: pointer;
+    user-select: none;
+  }
+  .chip[aria-pressed="true"] {
+    background: var(--chip-active-bg);
+    color: var(--chip-active-ink);
+    border-color: transparent;
+  }
+
+  .section-label {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-3);
+    font-size: 11px;
+    font-weight: 600;
+    margin: 18px 0 10px;
+  }
+
+  /* Deal cards */
+  .deals { display: flex; flex-direction: column; gap: 14px; }
+  .deal {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--card);
+    padding: 18px 20px;
+  }
+  .deal.is-primary {
+    border: 2px solid var(--tint-blue-border);
+    padding: 17px 19px;
+  }
+  .deal-top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 18px;
+    align-items: start;
+  }
+  .deal-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 4px 8px;
+    border-radius: 6px;
+  }
+  .badge.auto-book { background: var(--tint-blue); color: var(--tint-blue-ink); }
+  .badge.award { background: var(--tint-purple); color: var(--tint-purple-ink); }
+  .badge.watching { background: var(--tint-gray); color: var(--tint-gray-ink); }
+  .deal-meta .meta-text { color: var(--ink-3); font-size: 13px; }
+  .deal-route {
+    font-size: 19px;
+    font-weight: 600;
+    margin: 4px 0 4px;
+    letter-spacing: -0.005em;
+  }
+  .deal-detail { color: var(--ink-2); font-size: 14px; }
+
+  .price {
+    text-align: right;
+    min-width: 130px;
+  }
+  .price .strike {
+    color: var(--ink-3);
+    text-decoration: line-through;
+    font-size: 14px;
+    margin-bottom: 2px;
+  }
+  .price .amount {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .price .amount.cash { color: var(--green); }
+  .price .sub {
+    color: var(--ink-3);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+  .price .sub.value { color: var(--green); }
+
+  .deal-foot {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 18px;
+    align-items: center;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+  }
+  .note {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    color: var(--ink-2);
+    font-size: 13.5px;
+  }
+  .note .check {
+    flex: 0 0 auto;
+    width: 14px;
+    height: 14px;
+    margin-top: 3px;
+    border: 1.5px solid var(--ink-3);
+    border-radius: 3px;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font: inherit;
+    font-weight: 500;
+    border: 1px solid var(--line-strong);
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .btn:hover { background: #f7f8fa; }
+  .btn-primary {
+    background: #0b0d0f;
+    color: #fff;
+    border-color: #0b0d0f;
+  }
+  .btn-primary:hover { background: #20242a; }
+  .arrow { font-size: 12px; opacity: 0.85; }
+
+  /* Footer rules */
+  .rules {
+    margin-top: 18px;
+    padding: 18px 20px;
+    background: var(--footer-bg);
+    border-radius: var(--radius);
+  }
+  .rules-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .rules-head .label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+  }
+  .rules-head .check {
+    width: 14px; height: 14px;
+    border: 1.5px solid var(--ink-3);
+    border-radius: 3px;
+  }
+  .rules-body { color: var(--ink-2); font-size: 14px; line-height: 1.5; }
+
+  @media (max-width: 720px) {
+    .app { margin: 0; border-radius: 0; padding: 20px; }
+    .search { grid-template-columns: 1fr 1fr; }
+    .hunt { grid-column: 1 / -1; }
+    .deal-top, .deal-foot { grid-template-columns: 1fr; }
+    .price { text-align: left; }
+  }
+</style>
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <div>
+        <h1 class="title">Skyhound</h1>
+        <p class="subtitle">Business class, found and booked.</p>
+      </div>
+      <span class="auto-status"><span class="dot" aria-hidden="true"></span>Auto-book on</span>
+    </header>
+
+    <form class="search" onsubmit="event.preventDefault();">
+      <div class="field">
+        <label for="from">From</label>
+        <input id="from" value="SEA" />
+      </div>
+      <div class="field">
+        <label for="to">To (or anywhere)</label>
+        <input id="to" value="Europe" />
+      </div>
+      <div class="field">
+        <label for="window">Window</label>
+        <select id="window">
+          <option>Next 30 days</option>
+          <option selected>Next 90 days</option>
+          <option>Next 6 months</option>
+          <option>Next 12 months</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="budget">Max budget</label>
+        <input id="budget" value="$1,500" />
+      </div>
+      <button class="hunt" type="submit">Hunt</button>
+    </form>
+
+    <div class="chips" role="group" aria-label="Filters">
+      <button class="chip" type="button" aria-pressed="true">Cash + miles</button>
+      <button class="chip" type="button" aria-pressed="false">Lie-flat only</button>
+      <button class="chip" type="button" aria-pressed="false">≤1 stop</button>
+      <button class="chip" type="button" aria-pressed="false">Star Alliance</button>
+      <button class="chip" type="button" aria-pressed="false">Avoid red-eyes</button>
+    </div>
+
+    <div class="section-label">3 deals worth your attention</div>
+
+    <section class="deals">
+      <article class="deal is-primary">
+        <div class="deal-top">
+          <div>
+            <div class="deal-meta">
+              <span class="badge auto-book">Auto-book ready</span>
+              <span class="meta-text">expires in 4h 12m</span>
+            </div>
+            <div class="deal-route">SEA → ZRH · Swiss 78</div>
+            <div class="deal-detail">Nov 14 · 1 stop SFO · lie-flat · 12h 40m</div>
+          </div>
+          <div class="price">
+            <div class="strike">$6,840</div>
+            <div class="amount cash">$1,920</div>
+            <div class="sub">72% off · cash fare</div>
+          </div>
+        </div>
+        <div class="deal-foot">
+          <div class="note">
+            <span class="check" aria-hidden="true"></span>
+            <span>Rare error fare on Swiss site. Confirmed bookable. Skyhound fee: $246 (5% of savings).</span>
+          </div>
+          <a class="btn btn-primary" href="#">Book now <span class="arrow">↗</span></a>
+        </div>
+      </article>
+
+      <article class="deal">
+        <div class="deal-top">
+          <div>
+            <div class="deal-meta">
+              <span class="badge award">Award seat</span>
+              <span class="meta-text">3 seats left</span>
+            </div>
+            <div class="deal-route">SEA → LHR · BA Club Suite</div>
+            <div class="deal-detail">Dec 3 · nonstop · 9h 25m · book via Aer Lingus</div>
+          </div>
+          <div class="price">
+            <div class="amount">62k pts</div>
+            <div class="sub">+ $112 taxes</div>
+            <div class="sub value">≈ $1,400 value</div>
+          </div>
+        </div>
+        <div class="deal-foot">
+          <div class="note">
+            <span class="check" aria-hidden="true"></span>
+            <span>Requires Aer Lingus account login. We'll guide you — can't auto-book yet.</span>
+          </div>
+          <a class="btn" href="#">Walkthrough <span class="arrow">↗</span></a>
+        </div>
+      </article>
+
+      <article class="deal">
+        <div class="deal-top">
+          <div>
+            <div class="deal-meta">
+              <span class="badge watching">Watching</span>
+              <span class="meta-text">price drops historically by Q3</span>
+            </div>
+            <div class="deal-route">SEA → CDG · Air France</div>
+            <div class="deal-detail">Mar–Apr · La Première rumored to open · we'll alert you</div>
+          </div>
+          <div class="price">
+            <div class="sub">target</div>
+            <div class="amount">$2,200</div>
+            <div class="sub">currently $4,890</div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="rules">
+      <div class="rules-head">
+        <div class="label"><span class="check" aria-hidden="true"></span>Auto-book rules</div>
+        <button class="btn" type="button">Edit</button>
+      </div>
+      <div class="rules-body">
+        Book automatically when: business class · ≥60% off published fare · departs SEA/PDX · lie-flat seat · ≤1 stop · my saved card · always within $2,500 cap · I get 30 minutes to cancel free.
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.querySelectorAll('.chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const pressed = chip.getAttribute('aria-pressed') === 'true';
+        chip.setAttribute('aria-pressed', String(!pressed));
+      });
+    });
+  </script>
+</body>
+</html>
