@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Book a clean — Simply Clean LLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f1e8;
+    --cream-dark: #ebe5d6;
+    --ink: #1a1f1a;
+    --ink-soft: #4a544a;
+    --ink-muted: #8a8f85;
+    --moss: #7ba045;
+    --moss-dark: #5a7a30;
+    --moss-deep: #2d3d1a;
+    --moss-light: #e8efd9;
+    --line: rgba(26, 31, 26, 0.12);
+    --line-soft: rgba(26, 31, 26, 0.06);
+    --warn-bg: #fbf3e1;
+    --warn-text: #7a5a10;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(123, 160, 69, 0.04) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(123, 160, 69, 0.03) 0%, transparent 40%);
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.12 0 0 0 0 0.1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 1;
+  }
+  /* Header */
+  header {
+    position: relative;
+    z-index: 2;
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 0.5px solid var(--line);
+    background: rgba(245, 241, 232, 0.85);
+    backdrop-filter: blur(8px);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+  }
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: var(--moss);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream);
+    font-weight: 600;
+    font-style: italic;
+  }
+  .help-link {
+    font-size: 13px;
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+  .help-link:hover { color: var(--ink); }
+
+  /* Layout */
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 980px;
+    margin: 40px auto 80px;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 48px;
+  }
+  @media (max-width: 800px) {
+    .container { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  /* Stepper */
+  .stepper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 28px;
+    font-size: 12px;
+    color: var(--ink-muted);
+    flex-wrap: wrap;
+  }
+  .step {
+    display: flex; align-items: center; gap: 6px;
+  }
+  .step-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 0.5px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    background: var(--cream);
+  }
+  .step.active .step-num {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+  .step.done .step-num {
+    background: var(--moss);
+    color: var(--cream);
+    border-color: var(--moss);
+  }
+  .step.active { color: var(--ink); }
+  .step.done { color: var(--ink-soft); }
+  .step-line { flex: 0 0 16px; height: 0.5px; background: var(--line); }
+
+  /* Content */
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    color: var(--ink-soft);
+    font-size: 15px;
+    margin-bottom: 32px;
+  }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin: 32px 0 14px;
+    letter-spacing: -0.01em;
+  }
+  .section-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-muted);
+    margin: 32px 0 12px;
+  }
+
+  /* Service tiles */
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .tile {
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 12px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: left;
+    display: flex; flex-direction: column;
+    gap: 8px;
+    font-family: inherit;
+    color: inherit;
+  }
+  .tile:hover { border-color: var(--ink-soft); transform: translateY(-1px); }
+  .tile.selected {
+    border: 1.5px solid var(--moss);
+    padding: 19.5px;
+    background: var(--moss-light);
+  }
+  .tile-icon {
+    width: 36px; height: 36px;
+    background: var(--moss-light);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+  .tile.selected .tile-icon { background: var(--cream); }
+  .tile-name {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .tile-desc {
+    font-size: 12px;
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+  .tile-price {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-top: auto;
+    padding-top: 8px;
+  }
+
+  /* Pills */
+  .pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .pill {
+    padding: 10px 16px;
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 100px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--ink-soft);
+    transition: all 0.15s ease;
+  }
+  .pill:hover { border-color: var(--ink-soft); }
+  .pill.selected {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+  .pill .savings {
+    font-size: 11px;
+    color: var(--moss);
+    margin-left: 4px;
+  }
+  .pill.selected .savings { color: #c9d9a3; }
+
+  /* Inputs */
+  .field { margin-bottom: 14px; }
+  label {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    margin-bottom: 6px;
+  }
+  input[type="text"], input[type="email"], input[type="tel"], textarea, select {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--ink);
+    transition: border-color 0.15s ease;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--moss);
+  }
+  textarea { resize: vertical; min-height: 80px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+
+  /* Bedrooms / bathrooms counter */
+  .counter-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .counter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+  .counter-label { font-size: 13px; color: var(--ink-soft); }
+  .counter-controls { display: flex; align-items: center; gap: 12px; }
+  .counter-btn {
+    width: 24px; height: 24px;
+    background: transparent;
+    border: 0.5px solid var(--line);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--ink-soft);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .counter-btn:hover { background: var(--cream-dark); }
+  .counter-value { font-weight: 500; min-width: 18px; text-align: center; }
+
+  /* Calendar */
+  .calendar {
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .cal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 14px;
+  }
+  .cal-month {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .cal-nav {
+    display: flex; gap: 4px;
+  }
+  .cal-nav-btn {
+    width: 28px; height: 28px;
+    background: transparent;
+    border: 0.5px solid var(--line);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+  .cal-nav-btn:hover { background: var(--cream-dark); }
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+  }
+  .cal-dow {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    text-align: center;
+    padding: 4px 0;
+  }
+  .cal-day {
+    aspect-ratio: 1;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--ink-soft);
+    font-family: inherit;
+  }
+  .cal-day:hover:not(:disabled):not(.empty) {
+    background: var(--cream-dark);
+  }
+  .cal-day.available {
+    color: var(--ink);
+  }
+  .cal-day.available::after {
+    content: '';
+    display: block;
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--moss);
+    margin: 2px auto 0;
+  }
+  .cal-day.selected {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .cal-day.selected::after { background: var(--moss); }
+  .cal-day:disabled { color: var(--ink-muted); opacity: 0.4; cursor: not-allowed; }
+  .cal-day.empty { cursor: default; }
+
+  .time-slots {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 8px;
+    margin-top: 16px;
+  }
+  .time-slot {
+    padding: 10px;
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--ink);
+    text-align: center;
+  }
+  .time-slot:hover { border-color: var(--ink-soft); }
+  .time-slot.selected {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+  .time-slot:disabled {
+    color: var(--ink-muted);
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* Add-ons */
+  .addon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 18px;
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 10px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .addon:hover { border-color: var(--ink-soft); }
+  .addon.selected {
+    border: 1.5px solid var(--moss);
+    background: var(--moss-light);
+    padding: 15.5px 17.5px;
+  }
+  .addon-info { display: flex; align-items: center; gap: 14px; }
+  .addon-icon {
+    width: 36px; height: 36px;
+    background: var(--cream-dark);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .addon.selected .addon-icon { background: var(--cream); }
+  .addon-name {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .addon-desc {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-top: 2px;
+  }
+  .addon-price {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .addon-check {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    border: 0.5px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    color: transparent;
+    margin-left: 12px;
+  }
+  .addon.selected .addon-check {
+    background: var(--moss);
+    border-color: var(--moss);
+    color: var(--cream);
+  }
+
+  /* Reschedule policy */
+  .policy-note {
+    background: var(--warn-bg);
+    color: var(--warn-text);
+    border-radius: 10px;
+    padding: 14px 16px;
+    font-size: 12px;
+    line-height: 1.6;
+    margin-top: 16px;
+    border-left: 2px solid #d4a847;
+  }
+  .policy-note strong { font-weight: 600; }
+
+  /* Buttons */
+  .btn-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 0.5px solid var(--line);
+  }
+  button.btn {
+    padding: 12px 24px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 500;
+    transition: all 0.15s ease;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .btn-primary:hover { background: var(--moss-deep); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink-soft);
+    padding: 12px 16px;
+  }
+  .btn-ghost:hover { color: var(--ink); }
+
+  /* Summary sidebar */
+  .summary {
+    position: sticky;
+    top: 24px;
+    align-self: start;
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .summary-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .summary-sub {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-bottom: 20px;
+    padding-bottom: 16px;
+    border-bottom: 0.5px solid var(--line);
+  }
+  .summary-line {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .summary-line.muted { color: var(--ink-muted); font-size: 12px; }
+  .summary-line.discount { color: var(--moss-dark); }
+  .summary-divider {
+    height: 0.5px;
+    background: var(--line);
+    margin: 12px 0;
+  }
+  .summary-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: 12px;
+    margin-top: 12px;
+    border-top: 0.5px solid var(--line);
+  }
+  .summary-total-label { font-size: 13px; color: var(--ink-soft); }
+  .summary-total-amount {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 500;
+  }
+  .summary-frequency {
+    font-size: 11px;
+    color: var(--ink-muted);
+    text-align: right;
+    margin-top: 2px;
+  }
+  .care-note {
+    background: var(--moss-light);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--moss-deep);
+    margin-top: 16px;
+    line-height: 1.5;
+    font-style: italic;
+    font-family: 'Fraunces', serif;
+  }
+
+  /* Confirmation */
+  .confirmation {
+    text-align: center;
+    padding: 60px 20px;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+  .confirm-mark {
+    width: 64px; height: 64px;
+    background: var(--moss);
+    border-radius: 50%;
+    color: var(--cream);
+    font-size: 28px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 24px;
+  }
+  .confirm-title {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    letter-spacing: -0.02em;
+  }
+  .confirm-sub { color: var(--ink-soft); margin-bottom: 32px; }
+  .confirm-card {
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+    text-align: left;
+    margin-bottom: 24px;
+  }
+  .confirm-card-row {
+    display: flex; justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 0.5px solid var(--line-soft);
+    font-size: 13px;
+  }
+  .confirm-card-row:last-child { border-bottom: none; }
+  .confirm-card-label { color: var(--ink-muted); }
+  .confirm-actions {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  }
+
+  /* Pane transitions */
+  .pane { display: none; animation: fadeIn 0.3s ease; }
+  .pane.active { display: block; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Demo banner */
+  .demo-banner {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--cream);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 11px;
+    z-index: 100;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .demo-banner a { color: var(--moss); margin-left: 8px; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">S</div>
+    <span>Simply Clean</span>
+  </div>
+  <a href="#" class="help-link">Need help? Call Doris ↗</a>
+</header>
+
+<div class="container">
+  <main>
+    <!-- Stepper -->
+    <div class="stepper">
+      <div class="step active" data-step="1"><span class="step-num">1</span> Service</div>
+      <div class="step-line"></div>
+      <div class="step" data-step="2"><span class="step-num">2</span> Your home</div>
+      <div class="step-line"></div>
+      <div class="step" data-step="3"><span class="step-num">3</span> Schedule</div>
+      <div class="step-line"></div>
+      <div class="step" data-step="4"><span class="step-num">4</span> Add-ons</div>
+      <div class="step-line"></div>
+      <div class="step" data-step="5"><span class="step-num">5</span> Pay</div>
+    </div>
+
+    <!-- STEP 1: Service -->
+    <div class="pane active" data-pane="1">
+      <h1>What kind of clean<br/>are you after?</h1>
+      <p class="subtitle">You can switch frequency anytime. We work with you.</p>
+
+      <div class="tiles">
+        <button class="tile selected" data-svc="standard" data-base="145">
+          <div class="tile-icon">🏡</div>
+          <div class="tile-name">Standard clean</div>
+          <div class="tile-desc">Our regular meticulous clean. Best for ongoing care.</div>
+          <div class="tile-price">From $145</div>
+        </button>
+        <button class="tile" data-svc="deep" data-base="285">
+          <div class="tile-icon">✨</div>
+          <div class="tile-name">Deep clean</div>
+          <div class="tile-desc">Baseboards, blinds, behind appliances. Quarterly reset.</div>
+          <div class="tile-price">From $285</div>
+        </button>
+        <button class="tile" data-svc="moveinout" data-base="325">
+          <div class="tile-icon">🔑</div>
+          <div class="tile-name">Move in / out</div>
+          <div class="tile-desc">Empty home, top to bottom. Lease-ready.</div>
+          <div class="tile-price">From $325</div>
+        </button>
+        <button class="tile" data-svc="rental" data-base="125">
+          <div class="tile-icon">🏔️</div>
+          <div class="tile-name">Vacation rental</div>
+          <div class="tile-desc">Turnover service for hosts. Linens, restock, the works.</div>
+          <div class="tile-price">From $125</div>
+        </button>
+      </div>
+
+      <div class="section-label">How often?</div>
+      <div class="pills" id="frequency-pills">
+        <button class="pill" data-freq="weekly" data-discount="0.15">Weekly <span class="savings">save 15%</span></button>
+        <button class="pill selected" data-freq="biweekly" data-discount="0.10">Every 2 weeks <span class="savings">save 10%</span></button>
+        <button class="pill" data-freq="monthly" data-discount="0">Monthly</button>
+        <button class="pill" data-freq="onetime" data-discount="0">One time</button>
+      </div>
+
+      <div class="btn-row">
+        <span></span>
+        <button class="btn btn-primary" data-next="2">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Home -->
+    <div class="pane" data-pane="2">
+      <h1>Tell us about<br/>your home.</h1>
+      <p class="subtitle">This helps us send the right team and time it accurately.</p>
+
+      <div class="counter-row">
+        <div class="counter">
+          <span class="counter-label">Bedrooms</span>
+          <div class="counter-controls">
+            <button class="counter-btn" data-counter="bedrooms" data-dir="-1">−</button>
+            <span class="counter-value" id="bedrooms-val">3</span>
+            <button class="counter-btn" data-counter="bedrooms" data-dir="1">+</button>
+          </div>
+        </div>
+        <div class="counter">
+          <span class="counter-label">Bathrooms</span>
+          <div class="counter-controls">
+            <button class="counter-btn" data-counter="bathrooms" data-dir="-1">−</button>
+            <span class="counter-value" id="bathrooms-val">2</span>
+            <button class="counter-btn" data-counter="bathrooms" data-dir="1">+</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Approximate square footage</label>
+        <select id="sqft">
+          <option>Under 1,000 sq ft</option>
+          <option selected>1,000 – 2,000 sq ft</option>
+          <option>2,000 – 3,000 sq ft</option>
+          <option>3,000 – 4,000 sq ft</option>
+          <option>Over 4,000 sq ft</option>
+        </select>
+      </div>
+
+      <div class="section-label">Address</div>
+      <div class="field">
+        <input type="text" placeholder="Street address" value="42 Edgelands Lane" />
+      </div>
+      <div class="row">
+        <div class="field"><input type="text" placeholder="City" value="White Salmon" /></div>
+        <div class="field"><input type="text" placeholder="ZIP" value="98672" /></div>
+      </div>
+
+      <div class="section-label">Anything we should know?</div>
+      <div class="field">
+        <textarea placeholder="Pets, gate codes, areas to skip, allergies, products you prefer or avoid..."></textarea>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" data-next="1">← Back</button>
+        <button class="btn btn-primary" data-next="3">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Schedule -->
+    <div class="pane" data-pane="3">
+      <h1>When works<br/>for you?</h1>
+      <p class="subtitle">Pick your first clean. Recurring visits will land on the same day each cycle.</p>
+
+      <div class="calendar">
+        <div class="cal-header">
+          <div class="cal-month" id="cal-month-label">May 2026</div>
+          <div class="cal-nav">
+            <button class="cal-nav-btn" id="cal-prev">‹</button>
+            <button class="cal-nav-btn" id="cal-next">›</button>
+          </div>
+        </div>
+        <div class="cal-grid" id="cal-grid">
+          <div class="cal-dow">Sun</div><div class="cal-dow">Mon</div><div class="cal-dow">Tue</div><div class="cal-dow">Wed</div><div class="cal-dow">Thu</div><div class="cal-dow">Fri</div><div class="cal-dow">Sat</div>
+        </div>
+      </div>
+
+      <div class="section-label">Available times</div>
+      <div class="time-slots" id="time-slots">
+        <button class="time-slot" data-time="8:00 AM">8:00 AM</button>
+        <button class="time-slot selected" data-time="10:00 AM">10:00 AM</button>
+        <button class="time-slot" data-time="12:30 PM">12:30 PM</button>
+        <button class="time-slot" data-time="2:30 PM" disabled>2:30 PM</button>
+      </div>
+
+      <div class="policy-note">
+        <strong>Reschedule policy.</strong> Free more than 48 hours out. Within 48 hrs: $35. Within 24 hrs: 50% of clean. Doris's team plans their week around you — this lets us protect their time too.
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" data-next="2">← Back</button>
+        <button class="btn btn-primary" data-next="4">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: Add-ons -->
+    <div class="pane" data-pane="4">
+      <h1>A few extra<br/>touches?</h1>
+      <p class="subtitle">Optional, and you can always add these to a future clean from your portal.</p>
+
+      <button class="addon" data-addon="fridge" data-price="45">
+        <div class="addon-info">
+          <div class="addon-icon">🍋</div>
+          <div>
+            <div class="addon-name">Inside the fridge</div>
+            <div class="addon-desc">Shelves out, wiped down, organized back in.</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="addon-price">+$45</div>
+          <div class="addon-check">✓</div>
+        </div>
+      </button>
+
+      <button class="addon" data-addon="oven" data-price="40">
+        <div class="addon-info">
+          <div class="addon-icon">🔥</div>
+          <div>
+            <div class="addon-name">Inside the oven</div>
+            <div class="addon-desc">Including racks. Smells like new.</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="addon-price">+$40</div>
+          <div class="addon-check">✓</div>
+        </div>
+      </button>
+
+      <button class="addon" data-addon="windows" data-price="60">
+        <div class="addon-info">
+          <div class="addon-icon">🪟</div>
+          <div>
+            <div class="addon-name">Interior windows</div>
+            <div class="addon-desc">Up to 12 windows, sills included.</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="addon-price">+$60</div>
+          <div class="addon-check">✓</div>
+        </div>
+      </button>
+
+      <button class="addon" data-addon="laundry" data-price="30">
+        <div class="addon-info">
+          <div class="addon-icon">👕</div>
+          <div>
+            <div class="addon-name">Laundry & fold</div>
+            <div class="addon-desc">Up to two loads, folded and put on the bed.</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="addon-price">+$30</div>
+          <div class="addon-check">✓</div>
+        </div>
+      </button>
+
+      <button class="addon" data-addon="linens" data-price="25">
+        <div class="addon-info">
+          <div class="addon-icon">🛏️</div>
+          <div>
+            <div class="addon-name">Bed linens changed</div>
+            <div class="addon-desc">Per bedroom. Leave fresh sheets out for us.</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="addon-price">+$25</div>
+          <div class="addon-check">✓</div>
+        </div>
+      </button>
+
+      <button class="addon" data-addon="herbal" data-price="15">
+        <div class="addon-info">
+          <div class="addon-icon">🌿</div>
+          <div>
+            <div class="addon-name">Herbal finish</div>
+            <div class="addon-desc">Cedar, lavender, rosemary spray. Doris's house blend.</div>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="addon-price">+$15</div>
+          <div class="addon-check">✓</div>
+        </div>
+      </button>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" data-next="3">← Back</button>
+        <button class="btn btn-primary" data-next="5">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 5: Pay -->
+    <div class="pane" data-pane="5">
+      <h1>Last step.</h1>
+      <p class="subtitle">Card on file for cleans and any add-ons you book later. We charge after each visit.</p>
+
+      <div class="row">
+        <div class="field">
+          <label>Your name</label>
+          <input type="text" value="Sarah Mendez" />
+        </div>
+        <div class="field">
+          <label>Phone</label>
+          <input type="tel" value="(509) 555-0142" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" value="sarah.m@example.com" />
+      </div>
+
+      <div class="section-label">Payment</div>
+      <div class="field">
+        <label>Card number</label>
+        <input type="text" placeholder="4242 4242 4242 4242" />
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>Expiration</label>
+          <input type="text" placeholder="MM / YY" />
+        </div>
+        <div class="field">
+          <label>CVC</label>
+          <input type="text" placeholder="•••" />
+        </div>
+      </div>
+
+      <div class="policy-note" style="background: var(--moss-light); color: var(--moss-deep); border-color: var(--moss);">
+        <strong>How billing works.</strong> Your card isn't charged until after we clean. You'll get a receipt by email and SMS. Tipping happens after — never expected, always appreciated.
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-ghost" data-next="4">← Back</button>
+        <button class="btn btn-primary" id="confirm-btn">Confirm booking →</button>
+      </div>
+    </div>
+
+    <!-- CONFIRMATION -->
+    <div class="pane" data-pane="6">
+      <div class="confirmation">
+        <div class="confirm-mark">✓</div>
+        <div class="confirm-title">You're booked.<br/>Welcome, Sarah.</div>
+        <div class="confirm-sub">Doris will personally text you the day before your first clean.</div>
+
+        <div class="confirm-card">
+          <div class="confirm-card-row"><span class="confirm-card-label">Service</span><span id="conf-svc">Standard clean · biweekly</span></div>
+          <div class="confirm-card-row"><span class="confirm-card-label">First clean</span><span id="conf-when">Thursday, May 14 · 10:00 AM</span></div>
+          <div class="confirm-card-row"><span class="confirm-card-label">Address</span><span>42 Edgelands Lane, White Salmon</span></div>
+          <div class="confirm-card-row"><span class="confirm-card-label">Per clean</span><span id="conf-total">$130.50</span></div>
+        </div>
+
+        <div class="confirm-actions">
+          <button class="btn btn-ghost" onclick="location.href='02-portal.html'">Open my portal →</button>
+          <button class="btn btn-primary" data-next="1">Book another</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Summary sidebar -->
+  <aside class="summary" id="summary-pane">
+    <div class="summary-title">Your booking</div>
+    <div class="summary-sub">Updates as you go</div>
+
+    <div class="summary-line"><span id="sum-svc-name">Standard clean</span><span id="sum-svc-price">$145.00</span></div>
+    <div class="summary-line muted"><span>Home size adjustment</span><span id="sum-size">+$0.00</span></div>
+    <div class="summary-line discount" id="sum-discount-row"><span id="sum-discount-label">Biweekly discount (10%)</span><span id="sum-discount">−$14.50</span></div>
+
+    <div id="sum-addons-section" style="display:none;">
+      <div class="summary-divider"></div>
+      <div class="summary-line muted" style="text-transform: uppercase; letter-spacing: 0.08em; font-size: 11px;">Add-ons</div>
+      <div id="sum-addons"></div>
+    </div>
+
+    <div class="summary-total">
+      <div>
+        <div class="summary-total-label">Total per clean</div>
+        <div class="summary-frequency" id="sum-freq">Every 2 weeks</div>
+      </div>
+      <div class="summary-total-amount" id="sum-total">$130.50</div>
+    </div>
+
+    <div class="care-note">
+      "I treat every home like it's my own grandmother's."
+      <div style="font-style: normal; font-family: 'Inter'; font-size: 11px; color: var(--ink-muted); margin-top: 6px;">— Doris</div>
+    </div>
+  </aside>
+</div>
+
+<div class="demo-banner">
+  Demo prototype
+  <a href="00-index.html">All views →</a>
+</div>
+
+<script>
+const state = {
+  service: 'standard',
+  serviceName: 'Standard clean',
+  basePrice: 145,
+  frequency: 'biweekly',
+  freqLabel: 'Every 2 weeks',
+  discount: 0.10,
+  bedrooms: 3,
+  bathrooms: 2,
+  date: 'Thursday, May 14',
+  time: '10:00 AM',
+  addons: {},
+  addonNames: {
+    fridge: 'Inside the fridge',
+    oven: 'Inside the oven',
+    windows: 'Interior windows',
+    laundry: 'Laundry & fold',
+    linens: 'Bed linens changed',
+    herbal: 'Herbal finish'
+  }
+};
+
+// Stepper navigation
+function goToStep(step) {
+  document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
+  document.querySelector(`[data-pane="${step}"]`).classList.add('active');
+
+  document.querySelectorAll('.step').forEach((s, i) => {
+    s.classList.remove('active', 'done');
+    const stepNum = parseInt(s.dataset.step);
+    if (stepNum < step) s.classList.add('done');
+    if (stepNum === parseInt(step)) s.classList.add('active');
+  });
+
+  // Hide summary on confirmation
+  document.getElementById('summary-pane').style.display = step === '6' ? 'none' : '';
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelectorAll('[data-next]').forEach(btn => {
+  btn.addEventListener('click', () => goToStep(btn.dataset.next));
+});
+
+document.getElementById('confirm-btn').addEventListener('click', () => {
+  updateConfirmation();
+  goToStep('6');
+});
+
+// Service tiles
+document.querySelectorAll('.tile').forEach(tile => {
+  tile.addEventListener('click', () => {
+    document.querySelectorAll('.tile').forEach(t => t.classList.remove('selected'));
+    tile.classList.add('selected');
+    state.service = tile.dataset.svc;
+    state.basePrice = parseFloat(tile.dataset.base);
+    state.serviceName = tile.querySelector('.tile-name').textContent;
+    updateSummary();
+  });
+});
+
+// Frequency pills
+document.querySelectorAll('#frequency-pills .pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('#frequency-pills .pill').forEach(p => p.classList.remove('selected'));
+    pill.classList.add('selected');
+    state.frequency = pill.dataset.freq;
+    state.discount = parseFloat(pill.dataset.discount);
+    state.freqLabel = pill.textContent.split('save')[0].trim();
+    updateSummary();
+  });
+});
+
+// Counters
+document.querySelectorAll('.counter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const which = btn.dataset.counter;
+    const dir = parseInt(btn.dataset.dir);
+    const min = which === 'bedrooms' ? 1 : 1;
+    state[which] = Math.max(min, Math.min(8, state[which] + dir));
+    document.getElementById(which + '-val').textContent = state[which];
+    updateSummary();
+  });
+});
+
+// Time slots
+document.querySelectorAll('.time-slot').forEach(slot => {
+  slot.addEventListener('click', () => {
+    if (slot.disabled) return;
+    document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
+    slot.classList.add('selected');
+    state.time = slot.dataset.time;
+  });
+});
+
+// Add-ons
+document.querySelectorAll('.addon').forEach(addon => {
+  addon.addEventListener('click', () => {
+    addon.classList.toggle('selected');
+    const id = addon.dataset.addon;
+    if (addon.classList.contains('selected')) {
+      state.addons[id] = parseFloat(addon.dataset.price);
+    } else {
+      delete state.addons[id];
+    }
+    updateSummary();
+  });
+});
+
+// Calendar
+const today = new Date(2026, 4, 5); // May 5 2026
+let calMonth = 4; // May = 4
+let calYear = 2026;
+const selectedDate = { day: 14, month: 4, year: 2026 };
+
+function renderCalendar() {
+  const grid = document.getElementById('cal-grid');
+  // Clear all but DOW headers
+  while (grid.children.length > 7) grid.removeChild(grid.lastChild);
+
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('cal-month-label').textContent = `${monthNames[calMonth]} ${calYear}`;
+
+  const firstDay = new Date(calYear, calMonth, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+
+  // empty cells
+  for (let i = 0; i < firstDay; i++) {
+    const d = document.createElement('div');
+    d.className = 'cal-day empty';
+    grid.appendChild(d);
+  }
+
+  for (let day = 1; day <= daysInMonth; day++) {
+    const btn = document.createElement('button');
+    btn.className = 'cal-day';
+    btn.textContent = day;
+    const thisDate = new Date(calYear, calMonth, day);
+    const isPast = thisDate < today;
+    const dow = thisDate.getDay();
+    const isWeekend = dow === 0 || dow === 6;
+
+    if (isPast) {
+      btn.disabled = true;
+    } else if (!isWeekend) {
+      btn.classList.add('available');
+    } else {
+      btn.disabled = true;
+    }
+
+    if (day === selectedDate.day && calMonth === selectedDate.month && calYear === selectedDate.year) {
+      btn.classList.add('selected');
+    }
+
+    btn.addEventListener('click', () => {
+      if (btn.disabled) return;
+      selectedDate.day = day;
+      selectedDate.month = calMonth;
+      selectedDate.year = calYear;
+      const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+      state.date = `${dayNames[thisDate.getDay()]}, ${monthNames[calMonth]} ${day}`;
+      renderCalendar();
+    });
+    grid.appendChild(btn);
+  }
+}
+
+document.getElementById('cal-prev').addEventListener('click', () => {
+  calMonth--;
+  if (calMonth < 0) { calMonth = 11; calYear--; }
+  renderCalendar();
+});
+document.getElementById('cal-next').addEventListener('click', () => {
+  calMonth++;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  renderCalendar();
+});
+
+renderCalendar();
+
+// Summary calculation
+function updateSummary() {
+  const sizeAdj = (state.bedrooms - 2) * 15 + (state.bathrooms - 1) * 10;
+  const subtotal = state.basePrice + sizeAdj;
+  const discount = subtotal * state.discount;
+  const addonTotal = Object.values(state.addons).reduce((a,b) => a+b, 0);
+  const total = subtotal - discount + addonTotal;
+
+  document.getElementById('sum-svc-name').textContent = state.serviceName;
+  document.getElementById('sum-svc-price').textContent = '$' + state.basePrice.toFixed(2);
+  document.getElementById('sum-size').textContent = (sizeAdj >= 0 ? '+' : '') + '$' + sizeAdj.toFixed(2);
+  document.getElementById('sum-freq').textContent = state.freqLabel;
+
+  // Discount row
+  if (state.discount > 0) {
+    document.getElementById('sum-discount-row').style.display = '';
+    document.getElementById('sum-discount-label').textContent = `${state.freqLabel} discount (${(state.discount*100).toFixed(0)}%)`;
+    document.getElementById('sum-discount').textContent = '−$' + discount.toFixed(2);
+  } else {
+    document.getElementById('sum-discount-row').style.display = 'none';
+  }
+
+  // Addons
+  const addonKeys = Object.keys(state.addons);
+  const addonsSection = document.getElementById('sum-addons-section');
+  const addonsContainer = document.getElementById('sum-addons');
+  if (addonKeys.length > 0) {
+    addonsSection.style.display = '';
+    addonsContainer.innerHTML = addonKeys.map(k => `
+      <div class="summary-line"><span>${state.addonNames[k]}</span><span>+$${state.addons[k].toFixed(2)}</span></div>
+    `).join('');
+  } else {
+    addonsSection.style.display = 'none';
+  }
+
+  document.getElementById('sum-total').textContent = '$' + total.toFixed(2);
+}
+
+function updateConfirmation() {
+  const sizeAdj = (state.bedrooms - 2) * 15 + (state.bathrooms - 1) * 10;
+  const subtotal = state.basePrice + sizeAdj;
+  const discount = subtotal * state.discount;
+  const addonTotal = Object.values(state.addons).reduce((a,b) => a+b, 0);
+  const total = subtotal - discount + addonTotal;
+
+  document.getElementById('conf-svc').textContent = `${state.serviceName} · ${state.freqLabel.toLowerCase()}`;
+  document.getElementById('conf-when').textContent = `${state.date} · ${state.time}`;
+  document.getElementById('conf-total').textContent = '$' + total.toFixed(2);
+}
+
+updateSummary();
+</script>
+</body>
+</html>
