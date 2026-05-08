@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Your portal — Simply Clean LLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f1e8;
+    --cream-dark: #ebe5d6;
+    --ink: #1a1f1a;
+    --ink-soft: #4a544a;
+    --ink-muted: #8a8f85;
+    --moss: #7ba045;
+    --moss-dark: #5a7a30;
+    --moss-deep: #2d3d1a;
+    --moss-light: #e8efd9;
+    --line: rgba(26, 31, 26, 0.12);
+    --line-soft: rgba(26, 31, 26, 0.06);
+    --warn-bg: #fbf3e1;
+    --warn-text: #7a5a10;
+    --info-bg: #e3ecf2;
+    --info-text: #1d4456;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.12 0 0 0 0 0.1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 1;
+  }
+  header {
+    position: relative;
+    z-index: 2;
+    padding: 24px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 0.5px solid var(--line);
+    background: rgba(245, 241, 232, 0.85);
+    backdrop-filter: blur(8px);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    letter-spacing: 0.02em;
+  }
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: var(--moss);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream);
+    font-weight: 600;
+    font-style: italic;
+  }
+  .nav-tabs { display: flex; gap: 4px; }
+  .nav-tab {
+    padding: 6px 14px;
+    border-radius: 100px;
+    background: transparent;
+    border: 0.5px solid transparent;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-family: inherit;
+  }
+  .nav-tab:hover { background: var(--cream-dark); }
+  .nav-tab.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+  .user-chip {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px;
+  }
+  .avatar {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--cream-dark);
+    color: var(--ink);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 500;
+    font-size: 13px;
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 980px;
+    margin: 32px auto 80px;
+    padding: 0 24px;
+  }
+
+  .greeting {
+    margin-bottom: 32px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  h1 .accent { color: var(--moss-dark); font-style: italic; }
+  .greeting-sub { color: var(--ink-soft); margin-top: 6px; font-size: 15px; }
+
+  /* Hero card — next clean */
+  .next-card {
+    background: linear-gradient(135deg, #1a1f1a 0%, #2d3d1a 100%);
+    color: var(--cream);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .next-card::after {
+    content: '';
+    position: absolute;
+    right: -60px; bottom: -60px;
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(123,160,69,0.25) 0%, transparent 60%);
+  }
+  .next-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--moss);
+    margin-bottom: 12px;
+  }
+  .next-date {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+    line-height: 1.1;
+  }
+  .next-time {
+    font-size: 15px;
+    color: rgba(245,241,232,0.7);
+    margin-bottom: 24px;
+  }
+  .crew-row {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 24px;
+    padding: 14px 0;
+    border-top: 0.5px solid rgba(245,241,232,0.15);
+    border-bottom: 0.5px solid rgba(245,241,232,0.15);
+  }
+  .crew-avatars { display: flex; }
+  .crew-avatars .avatar {
+    border: 2px solid var(--moss-deep);
+    margin-left: -8px;
+    background: var(--moss);
+    color: var(--cream);
+    font-size: 12px;
+  }
+  .crew-avatars .avatar:first-child { margin-left: 0; }
+  .crew-info { flex: 1; }
+  .crew-name { font-size: 14px; font-weight: 500; }
+  .crew-detail { font-size: 12px; color: rgba(245,241,232,0.6); margin-top: 2px; }
+  .crew-status {
+    background: var(--moss);
+    color: var(--cream);
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .next-actions {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    position: relative; z-index: 1;
+  }
+  .next-btn {
+    background: rgba(245,241,232,0.1);
+    color: var(--cream);
+    border: 0.5px solid rgba(245,241,232,0.25);
+    padding: 9px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .next-btn:hover { background: rgba(245,241,232,0.2); }
+  .next-btn.primary {
+    background: var(--moss);
+    border-color: var(--moss);
+    color: var(--cream);
+    font-weight: 500;
+  }
+  .next-btn.primary:hover { background: var(--moss-dark); }
+
+  /* Upsell strip */
+  .upsell-card {
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 16px;
+  }
+  .upsell-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .upsell-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .upsell-sub {
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+  .upsell-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+  }
+  .upsell-tile {
+    background: transparent;
+    border: 0.5px solid var(--line);
+    border-radius: 12px;
+    padding: 14px;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    color: inherit;
+    display: flex; flex-direction: column; gap: 6px;
+    transition: all 0.15s ease;
+    position: relative;
+  }
+  .upsell-tile:hover { border-color: var(--ink-soft); transform: translateY(-1px); }
+  .upsell-tile.added {
+    background: var(--moss-light);
+    border: 1.5px solid var(--moss);
+    padding: 13.5px;
+  }
+  .upsell-icon { font-size: 20px; }
+  .upsell-name {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .upsell-price {
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+  .upsell-tile.added::after {
+    content: '✓';
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 20px; height: 20px;
+    background: var(--moss);
+    color: var(--cream);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+  }
+  .upsell-total {
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 0.5px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .upsell-total-amount {
+    font-family: 'Fraunces', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-left: 8px;
+  }
+
+  /* Two col grid */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 720px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+
+  .panel {
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  .panel-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 16px;
+  }
+  .panel-title {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .panel-link {
+    font-size: 12px;
+    color: var(--moss-dark);
+    text-decoration: none;
+  }
+
+  /* History list */
+  .history-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 0;
+    border-bottom: 0.5px solid var(--line-soft);
+  }
+  .history-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .history-date {
+    font-size: 13px;
+  }
+  .history-meta {
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-top: 2px;
+  }
+  .history-amount {
+    font-size: 13px;
+    font-weight: 500;
+  }
+  .history-photo {
+    width: 32px; height: 32px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, var(--moss-light), var(--cream-dark));
+    margin-right: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+
+  /* Preferences */
+  .pref-item {
+    padding: 10px 0;
+    border-bottom: 0.5px solid var(--line-soft);
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .pref-item:last-child { border-bottom: none; }
+  .pref-icon {
+    width: 24px; flex-shrink: 0;
+    text-align: center;
+  }
+  .pref-edit {
+    font-size: 11px;
+    color: var(--moss-dark);
+    margin-left: auto;
+    cursor: pointer;
+    background: none; border: none;
+    font-family: inherit;
+  }
+
+  /* Modal */
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(26, 31, 26, 0.5);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-backdrop.open { display: flex; }
+  .modal {
+    background: var(--cream);
+    border-radius: 20px;
+    padding: 32px;
+    max-width: 460px;
+    width: 100%;
+    position: relative;
+  }
+  .modal-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: none; border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--ink-muted);
+  }
+  .modal h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .modal p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 20px;
+  }
+  .resched-options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .resched-opt {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 16px;
+    border: 0.5px solid var(--line);
+    border-radius: 10px;
+    cursor: pointer;
+    background: transparent;
+    font-family: inherit;
+    text-align: left;
+    color: inherit;
+  }
+  .resched-opt:hover { border-color: var(--ink-soft); }
+  .resched-opt-label { font-size: 13px; }
+  .resched-opt-fee { font-size: 12px; }
+  .resched-opt-fee.free { color: var(--moss-dark); }
+  .resched-opt-fee.paid { color: var(--warn-text); }
+  .modal-actions {
+    display: flex; gap: 8px; justify-content: flex-end;
+    margin-top: 16px;
+  }
+  .btn {
+    padding: 10px 20px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+    font-weight: 500;
+  }
+  .btn-primary { background: var(--ink); color: var(--cream); }
+  .btn-ghost { background: transparent; color: var(--ink-soft); }
+
+  /* Toast */
+  .toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--ink);
+    color: var(--cream);
+    padding: 12px 20px;
+    border-radius: 100px;
+    font-size: 13px;
+    z-index: 200;
+    transition: transform 0.3s ease;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+  .toast .check {
+    width: 18px; height: 18px;
+    background: var(--moss);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+  }
+
+  /* Demo banner */
+  .demo-banner {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--cream);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 11px;
+    z-index: 50;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .demo-banner a { color: var(--moss); margin-left: 8px; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">S</div>
+    <span>Simply Clean</span>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active">Overview</button>
+    <button class="nav-tab">Schedule</button>
+    <button class="nav-tab">Billing</button>
+    <button class="nav-tab">Preferences</button>
+  </div>
+  <div class="user-chip">
+    <div class="avatar">SM</div>
+  </div>
+</header>
+
+<div class="container">
+  <div class="greeting">
+    <h1>Hi, <span class="accent">Sarah</span>.</h1>
+    <p class="greeting-sub">Your home is in good hands. Here's what's coming up.</p>
+  </div>
+
+  <!-- Next clean -->
+  <div class="next-card">
+    <div class="next-label">Next clean · in 2 days</div>
+    <div class="next-date">Thursday, May 7</div>
+    <div class="next-time">10:00 AM · Standard clean · est. 2.5 hrs</div>
+
+    <div class="crew-row">
+      <div class="crew-avatars">
+        <div class="avatar">M</div>
+        <div class="avatar">C</div>
+      </div>
+      <div class="crew-info">
+        <div class="crew-name">Maria & Carla on the way</div>
+        <div class="crew-detail">Both have been with us 3+ years</div>
+      </div>
+      <div class="crew-status">Confirmed</div>
+    </div>
+
+    <div class="next-actions">
+      <button class="next-btn" id="open-resched">Reschedule</button>
+      <button class="next-btn">Skip this one</button>
+      <button class="next-btn">Message Doris</button>
+    </div>
+  </div>
+
+  <!-- Upsell -->
+  <div class="upsell-card">
+    <div class="upsell-header">
+      <div>
+        <div class="upsell-title">Add a little extra to Thursday</div>
+        <div class="upsell-sub">Maria has time blocked. Add until Wednesday 6 PM.</div>
+      </div>
+    </div>
+    <div class="upsell-grid">
+      <button class="upsell-tile" data-addon="fridge" data-price="45">
+        <span class="upsell-icon">🍋</span>
+        <span class="upsell-name">Inside fridge</span>
+        <span class="upsell-price">+$45</span>
+      </button>
+      <button class="upsell-tile" data-addon="windows" data-price="60">
+        <span class="upsell-icon">🪟</span>
+        <span class="upsell-name">Interior windows</span>
+        <span class="upsell-price">+$60</span>
+      </button>
+      <button class="upsell-tile" data-addon="oven" data-price="40">
+        <span class="upsell-icon">🔥</span>
+        <span class="upsell-name">Inside oven</span>
+        <span class="upsell-price">+$40</span>
+      </button>
+      <button class="upsell-tile" data-addon="laundry" data-price="30">
+        <span class="upsell-icon">👕</span>
+        <span class="upsell-name">Laundry & fold</span>
+        <span class="upsell-price">+$30</span>
+      </button>
+      <button class="upsell-tile" data-addon="linens" data-price="25">
+        <span class="upsell-icon">🛏️</span>
+        <span class="upsell-name">Bed linens</span>
+        <span class="upsell-price">+$25 / bed</span>
+      </button>
+      <button class="upsell-tile" data-addon="herbal" data-price="15">
+        <span class="upsell-icon">🌿</span>
+        <span class="upsell-name">Herbal finish</span>
+        <span class="upsell-price">+$15</span>
+      </button>
+    </div>
+    <div class="upsell-total" id="upsell-total" style="display: none;">
+      <span>Add-ons total <span class="upsell-total-amount" id="upsell-amount">$0</span></span>
+      <button class="btn btn-primary" id="confirm-addons">Confirm add-ons →</button>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <!-- History -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Recent cleans</span>
+        <a href="#" class="panel-link">View all →</a>
+      </div>
+      <div class="history-item">
+        <div style="display: flex; align-items: center;">
+          <div class="history-photo">📸</div>
+          <div>
+            <div class="history-date">April 23</div>
+            <div class="history-meta">Standard · Maria & Carla · 5 ★</div>
+          </div>
+        </div>
+        <div class="history-amount">$130.50</div>
+      </div>
+      <div class="history-item">
+        <div style="display: flex; align-items: center;">
+          <div class="history-photo">📸</div>
+          <div>
+            <div class="history-date">April 9</div>
+            <div class="history-meta">Standard · Maria & Carla · 5 ★</div>
+          </div>
+        </div>
+        <div class="history-amount">$130.50</div>
+      </div>
+      <div class="history-item">
+        <div style="display: flex; align-items: center;">
+          <div class="history-photo">📸</div>
+          <div>
+            <div class="history-date">March 26</div>
+            <div class="history-meta">Standard + fridge · Maria · 5 ★</div>
+          </div>
+        </div>
+        <div class="history-amount">$175.50</div>
+      </div>
+      <div class="history-item">
+        <div style="display: flex; align-items: center;">
+          <div class="history-photo">📸</div>
+          <div>
+            <div class="history-date">March 12</div>
+            <div class="history-meta">Standard · Carla · 5 ★</div>
+          </div>
+        </div>
+        <div class="history-amount">$130.50</div>
+      </div>
+    </div>
+
+    <!-- Preferences -->
+    <div class="panel">
+      <div class="panel-header">
+        <span class="panel-title">Home notes</span>
+        <a href="#" class="panel-link">Edit →</a>
+      </div>
+      <div class="pref-item">
+        <span class="pref-icon">🐕</span>
+        <div>
+          <strong>Buddy</strong> is friendly · gate code <code style="background: var(--cream-dark); padding: 1px 6px; border-radius: 4px; font-size: 12px;">4218</code>
+        </div>
+      </div>
+      <div class="pref-item">
+        <span class="pref-icon">🌿</span>
+        <div>Skip the meditation room — incense and altar items stay untouched.</div>
+      </div>
+      <div class="pref-item">
+        <span class="pref-icon">💧</span>
+        <div>Prefer Mrs. Meyers products only · no synthetic fragrance.</div>
+      </div>
+      <div class="pref-item">
+        <span class="pref-icon">📦</span>
+        <div>Recycling under sink · dish towels in bottom drawer.</div>
+      </div>
+      <div class="pref-item">
+        <span class="pref-icon">⏰</span>
+        <div>Texts ok before 8 PM · email otherwise.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Refer a friend -->
+  <div class="panel" style="background: var(--moss-light); border-color: var(--moss); display: flex; justify-content: space-between; align-items: center; gap: 20px; flex-wrap: wrap;">
+    <div>
+      <div class="panel-title" style="margin-bottom: 4px;">Know someone with a tired house?</div>
+      <div style="font-size: 13px; color: var(--moss-deep);">Refer a neighbor — they get $25 off, you get $25 credit.</div>
+    </div>
+    <button class="btn btn-primary" style="background: var(--moss-deep); flex-shrink: 0;">Get your code →</button>
+  </div>
+</div>
+
+<!-- Reschedule modal -->
+<div class="modal-backdrop" id="resched-modal">
+  <div class="modal">
+    <button class="modal-close" id="close-modal">×</button>
+    <h2>Move Thursday's clean</h2>
+    <p>Doris's team plans the week around your slot. Here's what reschedules cost:</p>
+    <div class="resched-options">
+      <button class="resched-opt">
+        <div>
+          <div class="resched-opt-label" style="font-weight: 500;">More than 48 hours out</div>
+          <div style="font-size: 11px; color: var(--ink-muted); margin-top: 2px;">Pick a new day next week</div>
+        </div>
+        <div class="resched-opt-fee free">Free →</div>
+      </button>
+      <button class="resched-opt">
+        <div>
+          <div class="resched-opt-label" style="font-weight: 500;">Within 48 hours</div>
+          <div style="font-size: 11px; color: var(--ink-muted); margin-top: 2px;">Move to later this week</div>
+        </div>
+        <div class="resched-opt-fee paid">$35 fee →</div>
+      </button>
+      <button class="resched-opt">
+        <div>
+          <div class="resched-opt-label" style="font-weight: 500;">Within 24 hours</div>
+          <div style="font-size: 11px; color: var(--ink-muted); margin-top: 2px;">Same-day or next-day change</div>
+        </div>
+        <div class="resched-opt-fee paid">50% of clean →</div>
+      </button>
+    </div>
+    <p style="font-size: 12px; font-style: italic; color: var(--ink-muted); margin: 0;">Need to skip entirely? That's free anytime — just hit "Skip this one."</p>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <div class="check">✓</div>
+  <span id="toast-msg">Added to Thursday's clean</span>
+</div>
+
+<div class="demo-banner">
+  Customer portal · Demo
+  <a href="00-index.html">All views →</a>
+</div>
+
+<script>
+const addons = {};
+const addonNames = {
+  fridge: 'Inside fridge',
+  windows: 'Interior windows',
+  oven: 'Inside oven',
+  laundry: 'Laundry',
+  linens: 'Bed linens',
+  herbal: 'Herbal finish'
+};
+
+document.querySelectorAll('.upsell-tile').forEach(tile => {
+  tile.addEventListener('click', () => {
+    const id = tile.dataset.addon;
+    const price = parseFloat(tile.dataset.price);
+    if (tile.classList.contains('added')) {
+      tile.classList.remove('added');
+      delete addons[id];
+    } else {
+      tile.classList.add('added');
+      addons[id] = price;
+      showToast(`${addonNames[id]} added`);
+    }
+    updateUpsellTotal();
+  });
+});
+
+function updateUpsellTotal() {
+  const total = Object.values(addons).reduce((a,b) => a+b, 0);
+  const totalEl = document.getElementById('upsell-total');
+  if (total > 0) {
+    totalEl.style.display = '';
+    document.getElementById('upsell-amount').textContent = '$' + total.toFixed(2);
+  } else {
+    totalEl.style.display = 'none';
+  }
+}
+
+document.getElementById('confirm-addons').addEventListener('click', () => {
+  const total = Object.values(addons).reduce((a,b) => a+b, 0);
+  showToast(`$${total.toFixed(2)} in add-ons confirmed for Thursday`);
+});
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// Reschedule modal
+document.getElementById('open-resched').addEventListener('click', () => {
+  document.getElementById('resched-modal').classList.add('open');
+});
+document.getElementById('close-modal').addEventListener('click', () => {
+  document.getElementById('resched-modal').classList.remove('open');
+});
+document.getElementById('resched-modal').addEventListener('click', (e) => {
+  if (e.target.id === 'resched-modal') {
+    document.getElementById('resched-modal').classList.remove('open');
+  }
+});
+document.querySelectorAll('.resched-opt').forEach(opt => {
+  opt.addEventListener('click', () => {
+    document.getElementById('resched-modal').classList.remove('open');
+    showToast('Reschedule request sent — Doris will confirm');
+  });
+});
+</script>
+</body>
+</html>
