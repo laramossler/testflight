@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Work with us — Simply Clean LLC</title>
+<meta name="description" content="Join Simply Clean. Living wage, mileage paid, no nights or weekends. We're a small crew cleaning the Columbia River Gorge with care.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f1e8;
+    --cream-dark: #ebe5d6;
+    --ink: #1a1f1a;
+    --ink-soft: #4a544a;
+    --ink-muted: #8a8f85;
+    --moss: #7ba045;
+    --moss-dark: #5a7a30;
+    --moss-deep: #2d3d1a;
+    --moss-light: #e8efd9;
+    --line: rgba(26, 31, 26, 0.12);
+    --line-soft: rgba(26, 31, 26, 0.06);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.12 0 0 0 0 0.1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    padding: 18px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(245, 241, 232, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--line);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: var(--moss);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream);
+    font-weight: 600;
+    font-style: italic;
+  }
+  nav.nav-main { display: flex; gap: 28px; }
+  @media (max-width: 700px) { nav.nav-main { display: none; } }
+  nav.nav-main a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 14px;
+  }
+  nav.nav-main a:hover { color: var(--ink); }
+  .header-actions { display: flex; gap: 8px; }
+  .btn {
+    padding: 10px 18px;
+    border-radius: 100px;
+    border: 0.5px solid var(--line);
+    background: transparent;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--ink);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+  }
+  .btn:hover { background: var(--cream-dark); }
+  .btn-primary {
+    background: var(--ink); color: var(--cream); border-color: var(--ink);
+  }
+  .btn-moss {
+    background: var(--moss); color: var(--cream); border-color: var(--moss);
+  }
+  .btn-moss:hover { background: var(--moss-dark); border-color: var(--moss-dark); }
+
+  /* Hero */
+  .hero {
+    position: relative;
+    z-index: 2;
+    background: var(--moss-deep);
+    color: var(--cream);
+    padding: 100px 32px 120px;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 80% 30%, rgba(123,160,69,0.18) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(123,160,69,0.12) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+  @media (max-width: 800px) {
+    .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+    .hero { padding: 60px 20px 80px; }
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    background: rgba(123,160,69,0.15);
+    color: var(--moss);
+    padding: 5px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    margin-bottom: 24px;
+    font-weight: 500;
+  }
+  h1.hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(40px, 6vw, 64px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+    color: var(--cream);
+  }
+  h1.hero-title em {
+    font-style: italic;
+    color: var(--moss);
+    font-weight: 300;
+  }
+  .hero-sub {
+    font-size: 17px;
+    color: rgba(245,241,232,0.75);
+    max-width: 480px;
+    margin-bottom: 32px;
+    line-height: 1.6;
+  }
+  .perk-chips {
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .perk-chip {
+    background: rgba(123,160,69,0.15);
+    color: var(--moss);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* Hero badge stack */
+  .hero-visual {
+    position: relative;
+    height: 380px;
+  }
+  @media (max-width: 800px) { .hero-visual { display: none; } }
+  .badge {
+    position: absolute;
+    background: var(--cream);
+    color: var(--ink);
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 6px 32px rgba(0,0,0,0.2);
+  }
+  .badge.b1 {
+    top: 0; right: 0;
+    width: 220px;
+    transform: rotate(3deg);
+    background: var(--moss);
+    color: var(--cream);
+  }
+  .badge.b1 .num {
+    font-family: 'Fraunces', serif;
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 1;
+  }
+  .badge.b1 .lbl { font-size: 12px; opacity: 0.85; margin-top: 6px; }
+  .badge.b2 {
+    top: 110px; left: 20px;
+    width: 240px;
+    transform: rotate(-4deg);
+  }
+  .badge.b2 .quote {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.4;
+  }
+  .badge.b2 .author {
+    margin-top: 14px;
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+  .badge.b2 .av {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--moss-light);
+    color: var(--moss-deep);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 500;
+  }
+  .badge.b3 {
+    bottom: 0; right: 40px;
+    width: 200px;
+    transform: rotate(-2deg);
+    background: var(--cream-dark);
+    color: var(--ink);
+  }
+  .badge.b3 .row {
+    font-size: 12px;
+    padding: 4px 0;
+    border-bottom: 0.5px solid var(--line-soft);
+    display: flex; justify-content: space-between;
+  }
+  .badge.b3 .row:last-child { border-bottom: none; }
+  .badge.b3 .row strong { font-weight: 500; }
+
+  /* Sections */
+  section {
+    position: relative;
+    z-index: 2;
+    padding: 80px 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  @media (max-width: 700px) { section { padding: 60px 20px; } }
+
+  .section-eyebrow {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--moss-dark);
+    margin-bottom: 12px;
+  }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(32px, 4vw, 44px);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    max-width: 640px;
+    margin-bottom: 16px;
+  }
+  h2 em { font-style: italic; color: var(--moss-dark); font-weight: 300; }
+  .section-sub {
+    color: var(--ink-soft);
+    font-size: 16px;
+    max-width: 560px;
+    margin-bottom: 40px;
+  }
+
+  /* Why work here grid */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .why-card {
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .why-icon {
+    width: 44px; height: 44px;
+    background: var(--moss-light);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    margin-bottom: 14px;
+  }
+  .why-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .why-desc {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+
+  /* Maria testimonial */
+  .testimonial {
+    background: var(--cream-dark);
+    border-radius: 24px;
+    padding: 60px 48px;
+    margin: 40px 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+  @media (max-width: 700px) {
+    .testimonial { grid-template-columns: 1fr; padding: 40px 28px; gap: 24px; text-align: center; }
+  }
+  .testimonial-photo {
+    width: 160px; height: 160px;
+    background: var(--moss);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 80px;
+    color: var(--moss-deep);
+    font-style: italic;
+    flex-shrink: 0;
+  }
+  @media (max-width: 700px) { .testimonial-photo { margin: 0 auto; width: 120px; height: 120px; font-size: 60px; } }
+  .testimonial-quote {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    line-height: 1.4;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+  .testimonial-attr {
+    font-size: 13px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  /* What we look for */
+  .looking-list {
+    display: flex; flex-direction: column;
+    gap: 4px;
+    max-width: 640px;
+  }
+  .looking-row {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 16px 0;
+    border-bottom: 0.5px solid var(--line-soft);
+  }
+  .looking-row:last-child { border-bottom: none; }
+  .looking-check {
+    width: 24px; height: 24px;
+    background: var(--moss);
+    color: var(--cream);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .looking-text {
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .looking-text strong {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+  }
+
+  /* Application form */
+  .form-section {
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 24px;
+    padding: 48px;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  @media (max-width: 700px) { .form-section { padding: 32px 24px; } }
+
+  .form-title {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .form-sub {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+  .field { margin-bottom: 16px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 600px) { .field-row { grid-template-columns: 1fr; } }
+  label {
+    display: block;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    margin-bottom: 6px;
+  }
+  input[type="text"], input[type="email"], input[type="tel"], textarea, select {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--ink);
+    transition: border-color 0.15s ease;
+  }
+  input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--moss);
+  }
+  textarea { resize: vertical; min-height: 100px; }
+
+  .availability {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .day-pill {
+    padding: 8px 14px;
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 100px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--ink-soft);
+    user-select: none;
+  }
+  .day-pill:hover { border-color: var(--ink-soft); }
+  .day-pill.selected {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+
+  .submit-row {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 0.5px solid var(--line);
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .submit-note {
+    font-size: 12px;
+    color: var(--ink-muted);
+    flex: 1;
+    min-width: 180px;
+  }
+
+  /* Success state */
+  .form-success {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .form-success.show { display: block; }
+  .form-section.submitted .form-fields { display: none; }
+  .success-mark {
+    width: 64px; height: 64px;
+    background: var(--moss);
+    border-radius: 50%;
+    color: var(--cream);
+    font-size: 28px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+  }
+
+  /* Footer */
+  footer {
+    position: relative;
+    z-index: 2;
+    padding: 40px 32px;
+    border-top: 0.5px solid var(--line);
+  }
+  .footer-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+
+  /* Demo banner */
+  .demo-banner {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--cream);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 11px;
+    z-index: 60;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .demo-banner a { color: var(--moss); margin-left: 8px; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <a href="05-marketing.html" class="logo">
+    <div class="logo-mark">S</div>
+    <span>Simply Clean</span>
+  </a>
+  <nav class="nav-main">
+    <a href="05-marketing.html#services">Services</a>
+    <a href="05-marketing.html#how">How it works</a>
+    <a href="05-marketing.html#reviews">Reviews</a>
+    <a href="06-careers.html" style="color: var(--ink); font-weight: 500;">Careers</a>
+  </nav>
+  <div class="header-actions">
+    <a href="01-booking.html" class="btn btn-primary">Book a clean →</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">🌿 We're hiring · 1–2 spots</div>
+      <h1 class="hero-title">Work where<br/><em>the work matters.</em></h1>
+      <p class="hero-sub">We're a small team in the Gorge that takes pride seriously. Living wage, no nights or weekends, supplies provided. The clients know your name.</p>
+      <div class="perk-chips">
+        <span class="perk-chip">$22–28 / hr</span>
+        <span class="perk-chip">Mileage paid</span>
+        <span class="perk-chip">PTO from day 1</span>
+        <span class="perk-chip">No nights / weekends</span>
+        <span class="perk-chip">Supplies included</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="badge b1">
+        <div class="num">$26</div>
+        <div class="lbl">Average hourly with tips</div>
+      </div>
+      <div class="badge b2">
+        <div class="quote">"Doris is the best boss I've ever had. She knows my kids' names."</div>
+        <div class="author">
+          <div class="av">M</div>
+          <div>Maria · 4 years on the team</div>
+        </div>
+      </div>
+      <div class="badge b3">
+        <div class="row"><span>Hours / week</span><strong>25–35</strong></div>
+        <div class="row"><span>Crew size</span><strong>3</strong></div>
+        <div class="row"><span>Avg tenure</span><strong>3.2 yrs</strong></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY -->
+<section>
+  <div class="section-eyebrow">Why this job</div>
+  <h2>The kind of work<br/>that <em>treats you well</em>.</h2>
+  <p class="section-sub">Cleaning is hard work. We don't pretend otherwise. But we do everything we can to make the people doing it feel respected, paid fairly, and at home.</p>
+
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">💰</div>
+      <div class="why-title">Real money</div>
+      <div class="why-desc">$22–28/hour starting plus tips (most clients tip 15–20%). Mileage reimbursed at the IRS rate.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🌿</div>
+      <div class="why-title">Sane hours</div>
+      <div class="why-desc">No nights, no weekends, no on-call. Most days are done by 4pm. Build a schedule that works around your life.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🤝</div>
+      <div class="why-title">Good clients</div>
+      <div class="why-desc">We screen for kindness. If a client treats you poorly, we drop them. Your safety and dignity come first.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">📅</div>
+      <div class="why-title">PTO from day 1</div>
+      <div class="why-desc">Accrue time off starting your first week. No probation period. Sick days are sick days, not arguments.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🧴</div>
+      <div class="why-title">Everything provided</div>
+      <div class="why-desc">Supplies, products, vacuums, uniforms, training. You bring yourself. We bring the rest.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">⭐</div>
+      <div class="why-title">Bonuses for great work</div>
+      <div class="why-desc">5-star reviews come with $25 bonuses. Year-end profit sharing for everyone on the crew.</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARIA TESTIMONIAL -->
+<div style="max-width: 1100px; margin: 0 auto; padding: 0 32px;">
+  <div class="testimonial">
+    <div class="testimonial-photo">M</div>
+    <div>
+      <p class="testimonial-quote">"I worked at three other cleaning companies before this. None of them came close. Doris cares — about us, about the clients, about doing the work right. I'm not going anywhere."</p>
+      <div class="testimonial-attr">Maria — Lead cleaner · 4 years on the team</div>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT WE LOOK FOR -->
+<section>
+  <div class="section-eyebrow">What we look for</div>
+  <h2>You don't need <em>experience</em>.<br/>You do need this.</h2>
+  <p class="section-sub">We'll train you. We just can't teach you how to care.</p>
+
+  <div class="looking-list">
+    <div class="looking-row">
+      <div class="looking-check">✓</div>
+      <div class="looking-text"><strong>You notice things.</strong> The fingerprint on the cabinet. The dog water bowl that's almost empty. The thing out of place.</div>
+    </div>
+    <div class="looking-row">
+      <div class="looking-check">✓</div>
+      <div class="looking-text"><strong>You show up.</strong> Reliably, on time, ready to work. Our clients plan their week around us.</div>
+    </div>
+    <div class="looking-row">
+      <div class="looking-check">✓</div>
+      <div class="looking-text"><strong>You take pride in your work.</strong> A clean home is something we make, together. Quality matters more than speed.</div>
+    </div>
+    <div class="looking-row">
+      <div class="looking-check">✓</div>
+      <div class="looking-text"><strong>You have a valid driver's license</strong> and reliable transportation. We pay mileage between stops.</div>
+    </div>
+    <div class="looking-row">
+      <div class="looking-check">✓</div>
+      <div class="looking-text"><strong>You can lift 30 lbs and stand for several hours.</strong> Cleaning is physical. You'll feel it the first week.</div>
+    </div>
+  </div>
+</section>
+
+<!-- APPLICATION -->
+<section>
+  <div class="form-section" id="form-section">
+    <div class="form-fields">
+      <h3 class="form-title">Apply now</h3>
+      <p class="form-sub">Doris reads every application personally. You'll hear back within 3 days.</p>
+
+      <div class="field-row">
+        <div class="field">
+          <label>Your name</label>
+          <input type="text" placeholder="First and last" />
+        </div>
+        <div class="field">
+          <label>Phone</label>
+          <input type="tel" placeholder="(509) 555-0142" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" placeholder="you@example.com" />
+      </div>
+      <div class="field">
+        <label>Where are you based?</label>
+        <select>
+          <option>White Salmon</option>
+          <option>Hood River</option>
+          <option>Bingen</option>
+          <option>Stevenson</option>
+          <option>Trout Lake</option>
+          <option>Husum</option>
+          <option>Other Gorge town</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Available days</label>
+        <div class="availability">
+          <button class="day-pill" type="button">Mon</button>
+          <button class="day-pill" type="button">Tue</button>
+          <button class="day-pill" type="button">Wed</button>
+          <button class="day-pill" type="button">Thu</button>
+          <button class="day-pill" type="button">Fri</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Cleaning experience? (optional)</label>
+        <select>
+          <option>None — happy to learn</option>
+          <option>A little — friends/family</option>
+          <option>Some — house cleaning before</option>
+          <option>Lots — professional cleaner</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Tell us why this work calls to you</label>
+        <textarea placeholder="A few sentences about what draws you to this job. There's no wrong answer — we just want to hear from you."></textarea>
+      </div>
+
+      <div class="submit-row">
+        <div class="submit-note">By submitting, you confirm you're 18+ and authorized to work in the US.</div>
+        <button class="btn btn-moss" id="submit-btn" style="padding: 12px 22px; font-size: 14px;">Send application →</button>
+      </div>
+    </div>
+
+    <div class="form-success" id="form-success">
+      <div class="success-mark">✓</div>
+      <h3 class="form-title" style="text-align: center;">Thank you.</h3>
+      <p class="form-sub" style="text-align: center; max-width: 360px; margin: 0 auto 24px;">Doris will personally read your application and get back to you within 3 days.</p>
+      <a href="05-marketing.html" class="btn">← Back to homepage</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div>© 2026 Simply Clean LLC · White Salmon, WA</div>
+    <div>Equal opportunity employer · License #SCC-22-1187</div>
+  </div>
+</footer>
+
+<div class="demo-banner">
+  Careers · Demo
+  <a href="00-index.html">All views →</a>
+</div>
+
+<script>
+  // Day pill toggles
+  document.querySelectorAll('.day-pill').forEach(pill => {
+    pill.addEventListener('click', () => pill.classList.toggle('selected'));
+  });
+
+  // Submit
+  document.getElementById('submit-btn').addEventListener('click', () => {
+    const section = document.getElementById('form-section');
+    section.classList.add('submitted');
+    document.getElementById('form-success').classList.add('show');
+    window.scrollTo({ top: section.offsetTop - 80, behavior: 'smooth' });
+  });
+</script>
+
+</body>
+</html>
