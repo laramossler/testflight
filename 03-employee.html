@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Maria's day — Simply Clean LLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f1e8;
+    --cream-dark: #ebe5d6;
+    --ink: #1a1f1a;
+    --ink-soft: #4a544a;
+    --ink-muted: #8a8f85;
+    --moss: #7ba045;
+    --moss-dark: #5a7a30;
+    --moss-deep: #2d3d1a;
+    --moss-light: #e8efd9;
+    --line: rgba(26, 31, 26, 0.12);
+    --line-soft: rgba(26, 31, 26, 0.06);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.12 0 0 0 0 0.1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  header {
+    position: relative;
+    z-index: 2;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 0.5px solid var(--line);
+    background: rgba(245, 241, 232, 0.85);
+    backdrop-filter: blur(8px);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+  }
+  .logo-mark {
+    width: 28px; height: 28px;
+    background: var(--moss);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream);
+    font-weight: 600;
+    font-style: italic;
+    font-size: 13px;
+  }
+  .header-actions { display: flex; gap: 8px; }
+  .btn {
+    padding: 8px 14px;
+    border-radius: 100px;
+    border: 0.5px solid var(--line);
+    background: var(--cream);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--ink-soft);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn:hover { border-color: var(--ink-soft); color: var(--ink); }
+  .btn-primary { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 720px;
+    margin: 28px auto 80px;
+    padding: 0 20px;
+  }
+
+  /* Page header */
+  .page-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 30px;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  h1 .accent { color: var(--moss-dark); font-style: italic; }
+  .page-sub {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  .toggle-group {
+    display: inline-flex;
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 100px;
+    padding: 3px;
+  }
+  .toggle-btn {
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-family: inherit;
+  }
+  .toggle-btn.active {
+    background: var(--ink);
+    color: var(--cream);
+  }
+
+  /* Day summary */
+  .summary-card {
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 24px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 600px) {
+    .summary-card { grid-template-columns: repeat(2, 1fr); }
+  }
+  .summary-stat {
+    border-right: 0.5px solid var(--line-soft);
+    padding-right: 16px;
+  }
+  .summary-stat:last-child { border-right: none; }
+  .summary-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin-bottom: 4px;
+  }
+  .summary-value {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1;
+  }
+  .summary-detail {
+    font-size: 11px;
+    color: var(--ink-muted);
+    margin-top: 2px;
+  }
+
+  /* Route */
+  .route { position: relative; }
+  .route::before {
+    content: '';
+    position: absolute;
+    left: 19px; top: 32px; bottom: 32px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--moss), var(--moss-mid, #c0dd97), var(--moss));
+    z-index: 0;
+  }
+
+  .stop {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 18px;
+    margin-bottom: 14px;
+  }
+  .stop-marker {
+    width: 40px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 16px;
+  }
+  .stop-num {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--cream);
+    border: 2px solid var(--moss);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--moss-deep);
+    z-index: 2;
+    position: relative;
+  }
+  .stop.completed .stop-num {
+    background: var(--moss);
+    color: var(--cream);
+  }
+  .stop.current .stop-num {
+    background: var(--ink);
+    color: var(--cream);
+    border-color: var(--ink);
+  }
+  .stop.current .stop-num::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 1px solid var(--ink);
+    opacity: 0.3;
+    animation: pulse 2s ease infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.15); opacity: 0; }
+  }
+
+  .stop-card {
+    flex: 1;
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 14px;
+    padding: 16px 18px;
+  }
+  .stop.current .stop-card {
+    border: 1.5px solid var(--ink);
+    padding: 15.5px 17.5px;
+  }
+  .stop.completed .stop-card {
+    background: var(--cream-dark);
+    opacity: 0.75;
+  }
+
+  .stop-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 8px;
+    gap: 12px;
+  }
+  .stop-customer {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .stop-time {
+    background: var(--cream-dark);
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .stop.current .stop-time {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .stop-address {
+    font-size: 12px;
+    color: var(--ink-muted);
+    margin-bottom: 10px;
+  }
+  .stop-tags {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .tag {
+    background: var(--moss-light);
+    color: var(--moss-deep);
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-size: 11px;
+  }
+  .tag.addon {
+    background: #fbf3e1;
+    color: #7a5a10;
+  }
+  .stop-notes {
+    background: var(--cream-dark);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .stop-notes strong { color: var(--ink); font-weight: 500; }
+
+  .stop-actions {
+    display: flex; gap: 6px; margin-top: 12px;
+    flex-wrap: wrap;
+  }
+  .stop-action {
+    padding: 6px 12px;
+    border-radius: 100px;
+    border: 0.5px solid var(--line);
+    background: transparent;
+    font-size: 11px;
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .stop-action:hover { border-color: var(--ink-soft); color: var(--ink); }
+  .stop-action.complete-btn {
+    background: var(--moss);
+    color: var(--cream);
+    border-color: var(--moss);
+    font-weight: 500;
+  }
+
+  /* Drive segment */
+  .drive {
+    display: flex; align-items: center; gap: 18px;
+    padding-left: 0;
+    margin: -8px 0 6px;
+  }
+  .drive-marker {
+    width: 40px;
+    text-align: center;
+    color: var(--ink-muted);
+    font-size: 14px;
+  }
+  .drive-info {
+    font-size: 11px;
+    color: var(--ink-muted);
+    background: var(--cream);
+    padding: 4px 10px;
+    border-radius: 100px;
+    border: 0.5px dashed var(--line);
+  }
+
+  /* End of day */
+  .day-end {
+    margin-top: 20px;
+    padding: 20px;
+    background: var(--moss-deep);
+    color: var(--cream);
+    border-radius: 14px;
+    text-align: center;
+  }
+  .day-end-title {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+  .day-end-sub {
+    font-size: 12px;
+    opacity: 0.7;
+  }
+
+  /* Print */
+  @media print {
+    body { background: white; }
+    body::before { display: none; }
+    header, .page-header .toggle-group, .header-actions, .stop-actions, .demo-banner { display: none; }
+    .container { max-width: 100%; padding: 0; margin: 0; }
+    .stop-card, .summary-card, .day-end { break-inside: avoid; }
+  }
+
+  /* Demo banner */
+  .demo-banner {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--cream);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 11px;
+    z-index: 50;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .demo-banner a { color: var(--moss); margin-left: 8px; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">S</div>
+    <span>Simply Clean · Crew</span>
+  </div>
+  <div class="header-actions">
+    <button class="btn" onclick="window.print()">📄 Print</button>
+    <button class="btn btn-primary">⚙ Settings</button>
+  </div>
+</header>
+
+<div class="container">
+  <div class="page-header">
+    <div>
+      <h1>Maria's day, <span class="accent">Thursday</span></h1>
+      <p class="page-sub">May 7, 2026 · Routed by Doris last night</p>
+    </div>
+    <div class="toggle-group">
+      <button class="toggle-btn active">Today</button>
+      <button class="toggle-btn">Tomorrow</button>
+      <button class="toggle-btn">Week</button>
+    </div>
+  </div>
+
+  <div class="summary-card">
+    <div class="summary-stat">
+      <div class="summary-label">Stops</div>
+      <div class="summary-value">3</div>
+      <div class="summary-detail">+ 1 add-on</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-label">Hours</div>
+      <div class="summary-value">7.5</div>
+      <div class="summary-detail">incl. drive</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-label">Earnings</div>
+      <div class="summary-value">$248</div>
+      <div class="summary-detail">est. with tips</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-label">Mileage</div>
+      <div class="summary-value">28 mi</div>
+      <div class="summary-detail">reimbursed</div>
+    </div>
+  </div>
+
+  <div class="route">
+    <!-- Stop 1 -->
+    <div class="stop current">
+      <div class="stop-marker">
+        <div class="stop-num">1</div>
+      </div>
+      <div class="stop-card">
+        <div class="stop-header">
+          <div>
+            <div class="stop-customer">Sarah Mendez</div>
+            <div class="stop-address">42 Edgelands Lane, White Salmon</div>
+          </div>
+          <div class="stop-time">10:00 AM</div>
+        </div>
+        <div class="stop-tags">
+          <span class="tag">Standard · 2.5 hrs</span>
+          <span class="tag">Biweekly client</span>
+          <span class="tag addon">+ Inside fridge ($45)</span>
+        </div>
+        <div class="stop-notes">
+          🐕 <strong>Buddy</strong> is friendly · gate code <strong>4218</strong><br/>
+          🌿 Skip meditation room · don't move altar items<br/>
+          💧 Mrs. Meyers products only — under sink<br/>
+          📦 Recycling under sink · dish towels in bottom drawer
+        </div>
+        <div class="stop-actions">
+          <button class="stop-action">📍 Open in Maps</button>
+          <button class="stop-action">📞 Text Sarah</button>
+          <button class="stop-action">📸 Add photos</button>
+          <button class="stop-action complete-btn">Mark complete →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Drive -->
+    <div class="drive">
+      <div class="drive-marker">↓</div>
+      <div class="drive-info">22 min · 12 mi to Hood River</div>
+    </div>
+
+    <!-- Stop 2 -->
+    <div class="stop">
+      <div class="stop-marker">
+        <div class="stop-num">2</div>
+      </div>
+      <div class="stop-card">
+        <div class="stop-header">
+          <div>
+            <div class="stop-customer">James Reyes</div>
+            <div class="stop-address">1187 Oak Ridge Dr, Hood River</div>
+          </div>
+          <div class="stop-time">1:30 PM</div>
+        </div>
+        <div class="stop-tags">
+          <span class="tag">Standard · 2 hrs</span>
+          <span class="tag">Biweekly client</span>
+        </div>
+        <div class="stop-notes">
+          🔑 Key in <strong>lockbox 8821</strong> on side gate<br/>
+          🐈 Two cats · indoor only · skittish, don't approach<br/>
+          🌿 Loves the eucalyptus spray · use generously<br/>
+          ⚠ Note: rescheduling from Wed → Fri (Doris approved $35 fee)
+        </div>
+        <div class="stop-actions">
+          <button class="stop-action">📍 Open in Maps</button>
+          <button class="stop-action">📞 Text James</button>
+          <button class="stop-action">📸 Add photos</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Drive -->
+    <div class="drive">
+      <div class="drive-marker">↓</div>
+      <div class="drive-info">14 min · 8 mi to Bingen</div>
+    </div>
+
+    <!-- Stop 3 -->
+    <div class="stop">
+      <div class="stop-marker">
+        <div class="stop-num">3</div>
+      </div>
+      <div class="stop-card">
+        <div class="stop-header">
+          <div>
+            <div class="stop-customer">Underwood VRBO · Elena V.</div>
+            <div class="stop-address">208 Maple Way, Bingen</div>
+          </div>
+          <div class="stop-time">4:00 PM</div>
+        </div>
+        <div class="stop-tags">
+          <span class="tag">Vacation rental turnover · 2 hrs</span>
+          <span class="tag">Tight window</span>
+        </div>
+        <div class="stop-notes">
+          ⏰ Checkout was 11 AM · next guest arrives <strong>5 PM</strong> — tight!<br/>
+          🧺 Linens in hall closet · used ones in basket by door for laundry pickup<br/>
+          🔥 Check propane on grill · top up if low<br/>
+          ☕ Restock coffee, paper towels, hand soap from bin in garage<br/>
+          📱 Text Elena when done so she can release the lock code
+        </div>
+        <div class="stop-actions">
+          <button class="stop-action">📍 Open in Maps</button>
+          <button class="stop-action">📞 Text Elena</button>
+          <button class="stop-action">📋 Turnover checklist</button>
+          <button class="stop-action">📸 Add photos</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="day-end">
+    <div class="day-end-title">Drive home: 18 mi · 32 min</div>
+    <div class="day-end-sub">Submit time at end of day · paystub Friday morning</div>
+  </div>
+</div>
+
+<div class="demo-banner">
+  Crew view · Demo
+  <a href="00-index.html">All views →</a>
+</div>
+
+</body>
+</html>
