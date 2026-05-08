@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin — Simply Clean LLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f1e8;
+    --cream-dark: #ebe5d6;
+    --ink: #1a1f1a;
+    --ink-soft: #4a544a;
+    --ink-muted: #8a8f85;
+    --moss: #7ba045;
+    --moss-dark: #5a7a30;
+    --moss-deep: #2d3d1a;
+    --moss-light: #e8efd9;
+    --moss-mid: #c0dd97;
+    --line: rgba(26, 31, 26, 0.12);
+    --line-soft: rgba(26, 31, 26, 0.06);
+    --warn-bg: #fbf3e1;
+    --warn-text: #7a5a10;
+    --info-bg: #e3ecf2;
+    --info-text: #1d4456;
+    --danger-bg: #f5e3e0;
+    --danger-text: #7a3528;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.5;
+    min-height: 100vh;
+    font-size: 14px;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.12 0 0 0 0 0.1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Layout */
+  .app {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 100vh;
+  }
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+  }
+
+  /* Sidebar */
+  .sidebar {
+    border-right: 0.5px solid var(--line);
+    padding: 24px 16px;
+    background: rgba(245, 241, 232, 0.6);
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    margin-bottom: 32px;
+    padding: 0 8px;
+  }
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: var(--moss);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream);
+    font-weight: 600;
+    font-style: italic;
+  }
+  .nav-section {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-muted);
+    padding: 0 8px;
+    margin: 16px 0 6px;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--ink-soft);
+    font-size: 13px;
+    margin-bottom: 1px;
+    text-decoration: none;
+    border: 0.5px solid transparent;
+  }
+  .nav-item:hover { background: var(--cream-dark); color: var(--ink); }
+  .nav-item.active {
+    background: var(--cream);
+    color: var(--ink);
+    border-color: var(--line);
+    font-weight: 500;
+  }
+  .nav-item .badge {
+    margin-left: auto;
+    background: var(--moss);
+    color: var(--cream);
+    font-size: 10px;
+    padding: 1px 7px;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+
+  /* Main */
+  .main {
+    padding: 28px 32px 80px;
+    max-width: 1100px;
+  }
+  .page-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .page-sub {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-top: 4px;
+  }
+  .header-actions { display: flex; gap: 8px; }
+  .btn {
+    padding: 8px 14px;
+    border-radius: 100px;
+    border: 0.5px solid var(--line);
+    background: var(--cream);
+    cursor: pointer;
+    font-size: 13px;
+    font-family: inherit;
+    color: var(--ink-soft);
+  }
+  .btn:hover { border-color: var(--ink-soft); color: var(--ink); }
+  .btn-primary { background: var(--ink); color: var(--cream); border-color: var(--ink); font-weight: 500; }
+  .btn-primary:hover { background: var(--moss-deep); border-color: var(--moss-deep); color: var(--cream); }
+
+  /* Metric cards */
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .metric {
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 14px;
+    padding: 18px 20px;
+  }
+  .metric-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin-bottom: 8px;
+  }
+  .metric-value {
+    font-family: 'Fraunces', serif;
+    font-size: 30px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .metric-delta {
+    font-size: 12px;
+    margin-top: 8px;
+    color: var(--ink-muted);
+  }
+  .metric-delta.up { color: var(--moss-dark); }
+  .metric-delta.down { color: var(--danger-text); }
+
+  /* Section header */
+  .section {
+    margin-bottom: 24px;
+  }
+  .section-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 19px;
+    font-weight: 500;
+  }
+  .section-link {
+    font-size: 12px;
+    color: var(--moss-dark);
+    text-decoration: none;
+  }
+
+  /* Schedule grid */
+  .schedule-card {
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+    overflow-x: auto;
+  }
+  .schedule-grid {
+    display: grid;
+    grid-template-columns: 110px repeat(7, minmax(70px, 1fr));
+    gap: 6px;
+    min-width: 660px;
+  }
+  .sched-corner { /* empty */ }
+  .sched-day-header {
+    text-align: center;
+    padding: 8px 4px;
+    border-bottom: 0.5px solid var(--line);
+  }
+  .sched-day-header .dow {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+  }
+  .sched-day-header .date {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    margin-top: 2px;
+    font-weight: 500;
+  }
+  .sched-day-header.today .date {
+    color: var(--moss-dark);
+  }
+  .sched-employee {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px;
+    padding: 4px 0;
+  }
+  .sched-emp-avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--moss-mid);
+    color: var(--moss-deep);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .sched-cell {
+    padding: 8px 4px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 12px;
+    cursor: pointer;
+    transition: transform 0.1s;
+    min-height: 38px;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+  }
+  .sched-cell:hover { transform: scale(1.04); }
+  .sched-cell-empty { background: var(--cream-dark); color: var(--ink-muted); }
+  .sched-cell-1 { background: #eaf3de; color: var(--moss-deep); }
+  .sched-cell-2 { background: #c0dd97; color: var(--moss-deep); }
+  .sched-cell-3 { background: #97c459; color: var(--moss-deep); font-weight: 500; }
+  .sched-cell-conflict {
+    background: var(--warn-bg);
+    color: var(--warn-text);
+    border: 0.5px dashed #c89855;
+  }
+  .sched-count { font-weight: 500; }
+  .sched-hours { font-size: 10px; opacity: 0.7; }
+
+  /* Two columns */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  @media (max-width: 800px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+
+  .panel {
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+  }
+  .panel-header {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 14px;
+  }
+  .panel-title {
+    font-family: 'Fraunces', serif;
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .panel-count {
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+
+  /* Inbox items */
+  .inbox-item {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 12px 0;
+    border-bottom: 0.5px solid var(--line-soft);
+  }
+  .inbox-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .inbox-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+  .inbox-icon.warn { background: var(--warn-bg); color: var(--warn-text); }
+  .inbox-icon.info { background: var(--info-bg); color: var(--info-text); }
+  .inbox-icon.success { background: var(--moss-light); color: var(--moss-deep); }
+  .inbox-icon.danger { background: var(--danger-bg); color: var(--danger-text); }
+  .inbox-body { flex: 1; min-width: 0; }
+  .inbox-headline {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+  .inbox-detail {
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+  .inbox-time {
+    font-size: 11px;
+    color: var(--ink-muted);
+    flex-shrink: 0;
+  }
+  .inbox-action {
+    margin-top: 6px;
+    display: flex; gap: 6px;
+  }
+  .inbox-action .btn {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+
+  /* Comms outgoing */
+  .comm-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 0;
+    border-bottom: 0.5px solid var(--line-soft);
+    font-size: 12px;
+  }
+  .comm-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .comm-icon {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: var(--cream-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    flex-shrink: 0;
+  }
+  .comm-body { flex: 1; }
+  .comm-label { font-weight: 500; }
+  .comm-meta { color: var(--ink-muted); margin-top: 2px; }
+  .comm-time {
+    font-size: 11px;
+    color: var(--ink-muted);
+  }
+
+  /* Bottom row */
+  .bottom-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 800px) {
+    .bottom-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Customer table */
+  .customer-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 0.5px solid var(--line-soft);
+    font-size: 13px;
+  }
+  .customer-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .customer-name { font-weight: 500; }
+  .customer-meta { font-size: 11px; color: var(--ink-muted); margin-top: 1px; }
+  .customer-amount { font-size: 12px; color: var(--ink-soft); }
+
+  .review-card {
+    padding: 12px 0;
+    border-bottom: 0.5px solid var(--line-soft);
+  }
+  .review-card:last-child { border-bottom: none; padding-bottom: 0; }
+  .review-stars { color: #c89855; font-size: 13px; }
+  .review-text {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin: 4px 0;
+    line-height: 1.5;
+    font-style: italic;
+    font-family: 'Fraunces', serif;
+  }
+  .review-author {
+    font-size: 11px;
+    color: var(--ink-muted);
+  }
+
+  /* Demo banner */
+  .demo-banner {
+    position: fixed;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--ink);
+    color: var(--cream);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 11px;
+    z-index: 50;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .demo-banner a { color: var(--moss); margin-left: 8px; text-decoration: none; }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">
+      <div class="logo-mark">S</div>
+      <span>Simply Clean</span>
+    </div>
+
+    <a href="#" class="nav-item active"><span>📊</span> Dashboard</a>
+    <a href="03-employee.html" class="nav-item"><span>📋</span> Schedule</a>
+    <a href="#" class="nav-item"><span>👥</span> Customers <span class="badge">68</span></a>
+    <a href="#" class="nav-item"><span>🧹</span> Crew <span class="badge">3</span></a>
+    <a href="#" class="nav-item"><span>💌</span> Messages</a>
+    <a href="#" class="nav-item"><span>💰</span> Billing</a>
+
+    <div class="nav-section">Inbox</div>
+    <a href="#" class="nav-item"><span>📥</span> Needs attention <span class="badge" style="background: var(--warn-text);">5</span></a>
+    <a href="#" class="nav-item"><span>📝</span> Applications <span class="badge">2</span></a>
+    <a href="#" class="nav-item"><span>⭐</span> Reviews</a>
+
+    <div class="nav-section">Reports</div>
+    <a href="#" class="nav-item"><span>📈</span> Revenue</a>
+    <a href="#" class="nav-item"><span>🛣️</span> Routes</a>
+
+    <div style="margin-top: 32px; padding: 12px; background: var(--moss-light); border-radius: 10px; font-size: 11px; color: var(--moss-deep); line-height: 1.5;">
+      <div style="font-weight: 500; margin-bottom: 4px;">👋 Welcome back, Doris.</div>
+      You're signed in as owner.
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1>This week.</h1>
+        <p class="page-sub">May 5 – May 11, 2026 · Tuesday morning</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn">Export schedule PDF</button>
+        <button class="btn btn-primary">+ New booking</button>
+      </div>
+    </div>
+
+    <!-- Metrics -->
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-label">Revenue · this week</div>
+        <div class="metric-value">$4,820</div>
+        <div class="metric-delta up">↑ 12% vs last week</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Cleans booked</div>
+        <div class="metric-value">31</div>
+        <div class="metric-delta">3 add-ons sold</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Active clients</div>
+        <div class="metric-value">68</div>
+        <div class="metric-delta up">+2 this week</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Reschedule fees</div>
+        <div class="metric-value">$140</div>
+        <div class="metric-delta">4 events</div>
+      </div>
+    </div>
+
+    <!-- Schedule -->
+    <div class="section">
+      <div class="section-header">
+        <span class="section-title">Crew schedule</span>
+        <a href="#" class="section-link">Edit week →</a>
+      </div>
+      <div class="schedule-card">
+        <div class="schedule-grid">
+          <div class="sched-corner"></div>
+          <div class="sched-day-header today"><div class="dow">Mon</div><div class="date">5</div></div>
+          <div class="sched-day-header"><div class="dow">Tue</div><div class="date">6</div></div>
+          <div class="sched-day-header"><div class="dow">Wed</div><div class="date">7</div></div>
+          <div class="sched-day-header"><div class="dow">Thu</div><div class="date">8</div></div>
+          <div class="sched-day-header"><div class="dow">Fri</div><div class="date">9</div></div>
+          <div class="sched-day-header"><div class="dow">Sat</div><div class="date">10</div></div>
+          <div class="sched-day-header"><div class="dow">Sun</div><div class="date">11</div></div>
+
+          <div class="sched-employee">
+            <div class="sched-emp-avatar">M</div>
+            <div>Maria<div style="font-size: 10px; color: var(--ink-muted);">Lead</div></div>
+          </div>
+          <div class="sched-cell sched-cell-3"><span class="sched-count">3</span><span class="sched-hours">7.5h</span></div>
+          <div class="sched-cell sched-cell-2"><span class="sched-count">2</span><span class="sched-hours">5h</span></div>
+          <div class="sched-cell sched-cell-3"><span class="sched-count">3</span><span class="sched-hours">7.5h</span></div>
+          <div class="sched-cell sched-cell-3"><span class="sched-count">3</span><span class="sched-hours">8h</span></div>
+          <div class="sched-cell sched-cell-2"><span class="sched-count">2</span><span class="sched-hours">5h</span></div>
+          <div class="sched-cell sched-cell-empty">—</div>
+          <div class="sched-cell sched-cell-empty">—</div>
+
+          <div class="sched-employee">
+            <div class="sched-emp-avatar">C</div>
+            <div>Carla<div style="font-size: 10px; color: var(--ink-muted);">Senior</div></div>
+          </div>
+          <div class="sched-cell sched-cell-2"><span class="sched-count">2</span><span class="sched-hours">5h</span></div>
+          <div class="sched-cell sched-cell-3"><span class="sched-count">3</span><span class="sched-hours">7.5h</span></div>
+          <div class="sched-cell sched-cell-2"><span class="sched-count">2</span><span class="sched-hours">5h</span></div>
+          <div class="sched-cell sched-cell-3"><span class="sched-count">3</span><span class="sched-hours">7h</span></div>
+          <div class="sched-cell sched-cell-3"><span class="sched-count">3</span><span class="sched-hours">7.5h</span></div>
+          <div class="sched-cell sched-cell-empty">—</div>
+          <div class="sched-cell sched-cell-empty">—</div>
+
+          <div class="sched-employee">
+            <div class="sched-emp-avatar">J</div>
+            <div>Jen<div style="font-size: 10px; color: var(--ink-muted);">Part-time</div></div>
+          </div>
+          <div class="sched-cell sched-cell-1"><span class="sched-count">1</span><span class="sched-hours">2.5h</span></div>
+          <div class="sched-cell sched-cell-2"><span class="sched-count">2</span><span class="sched-hours">4h</span></div>
+          <div class="sched-cell sched-cell-2"><span class="sched-count">2</span><span class="sched-hours">4h</span></div>
+          <div class="sched-cell sched-cell-conflict"><span class="sched-count">!</span><span class="sched-hours">PTO</span></div>
+          <div class="sched-cell sched-cell-empty">—</div>
+          <div class="sched-cell sched-cell-empty">—</div>
+          <div class="sched-cell sched-cell-empty">—</div>
+        </div>
+      </div>
+      <div style="font-size: 11px; color: var(--warn-text); margin-top: 8px; padding: 0 4px;">⚠ Jen requested PTO for Thursday. <a href="#" style="color: var(--warn-text);">Reassign her 2 stops →</a></div>
+    </div>
+
+    <!-- Two col: inbox + comms -->
+    <div class="two-col">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Needs your attention</span>
+          <span class="panel-count">5 items</span>
+        </div>
+
+        <div class="inbox-item">
+          <div class="inbox-icon warn">⏰</div>
+          <div class="inbox-body">
+            <div class="inbox-headline">James R. wants to move Thursday → Friday</div>
+            <div class="inbox-detail">Within 48 hrs · $35 fee applies · 2 hr standard</div>
+            <div class="inbox-action">
+              <button class="btn btn-primary" style="background: var(--moss-deep); border-color: var(--moss-deep);">Approve & charge</button>
+              <button class="btn">Waive fee</button>
+              <button class="btn">Decline</button>
+            </div>
+          </div>
+          <div class="inbox-time">23m ago</div>
+        </div>
+
+        <div class="inbox-item">
+          <div class="inbox-icon info">📝</div>
+          <div class="inbox-body">
+            <div class="inbox-headline">Application: Rosa H.</div>
+            <div class="inbox-detail">3 yrs experience · referred by Maria · available Mon/Wed/Fri</div>
+            <div class="inbox-action">
+              <button class="btn">Schedule call</button>
+              <button class="btn">View application</button>
+            </div>
+          </div>
+          <div class="inbox-time">2h ago</div>
+        </div>
+
+        <div class="inbox-item">
+          <div class="inbox-icon success">⭐</div>
+          <div class="inbox-body">
+            <div class="inbox-headline">Sarah M. left a 5★ review</div>
+            <div class="inbox-detail">"Doris noticed our cat's water bowl..." + 2 photos attached</div>
+            <div class="inbox-action">
+              <button class="btn">Publish to site</button>
+              <button class="btn">Thank Sarah</button>
+            </div>
+          </div>
+          <div class="inbox-time">5h ago</div>
+        </div>
+
+        <div class="inbox-item">
+          <div class="inbox-icon danger">💳</div>
+          <div class="inbox-body">
+            <div class="inbox-headline">Card declined: Paul K.</div>
+            <div class="inbox-detail">$180 charge for Monday clean · auto-retry in 24 hrs</div>
+            <div class="inbox-action">
+              <button class="btn">Send card update link</button>
+            </div>
+          </div>
+          <div class="inbox-time">Yesterday</div>
+        </div>
+
+        <div class="inbox-item">
+          <div class="inbox-icon info">👋</div>
+          <div class="inbox-body">
+            <div class="inbox-headline">New booking: Theresa K.</div>
+            <div class="inbox-detail">Biweekly standard · 4bd/2ba · starting May 14</div>
+          </div>
+          <div class="inbox-time">Yesterday</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Comms going out</span>
+          <a href="#" class="section-link">Templates →</a>
+        </div>
+        <div class="comm-item">
+          <div class="comm-icon">📧</div>
+          <div class="comm-body">
+            <div class="comm-label">24-hr reminder</div>
+            <div class="comm-meta">Email + SMS · 8 customers</div>
+          </div>
+          <div class="comm-time">6:00 PM</div>
+        </div>
+        <div class="comm-item">
+          <div class="comm-icon">📱</div>
+          <div class="comm-body">
+            <div class="comm-label">"On my way" SMS</div>
+            <div class="comm-meta">Auto · day-of · per stop</div>
+          </div>
+          <div class="comm-time">Auto</div>
+        </div>
+        <div class="comm-item">
+          <div class="comm-icon">⭐</div>
+          <div class="comm-body">
+            <div class="comm-label">Review request</div>
+            <div class="comm-meta">3 customers · post-clean +24h</div>
+          </div>
+          <div class="comm-time">Wed</div>
+        </div>
+        <div class="comm-item">
+          <div class="comm-icon">🌿</div>
+          <div class="comm-body">
+            <div class="comm-label">Monthly newsletter</div>
+            <div class="comm-meta">"Spring deep clean tips" · 142 readers</div>
+          </div>
+          <div class="comm-time">Fri</div>
+        </div>
+        <div class="comm-item">
+          <div class="comm-icon">💚</div>
+          <div class="comm-body">
+            <div class="comm-label">Birthday note · Elena V.</div>
+            <div class="comm-meta">Auto · with $20 credit</div>
+          </div>
+          <div class="comm-time">Sat</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom row -->
+    <div class="bottom-grid">
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Top customers</span>
+          <a href="#" class="section-link">All →</a>
+        </div>
+        <div class="customer-row">
+          <div>
+            <div class="customer-name">Sarah M.</div>
+            <div class="customer-meta">Biweekly · 18 cleans</div>
+          </div>
+          <div class="customer-amount">$2,349</div>
+        </div>
+        <div class="customer-row">
+          <div>
+            <div class="customer-name">Elena V.</div>
+            <div class="customer-meta">Weekly · 24 cleans</div>
+          </div>
+          <div class="customer-amount">$2,210</div>
+        </div>
+        <div class="customer-row">
+          <div>
+            <div class="customer-name">James R.</div>
+            <div class="customer-meta">Biweekly · 14 cleans</div>
+          </div>
+          <div class="customer-amount">$1,820</div>
+        </div>
+        <div class="customer-row">
+          <div>
+            <div class="customer-name">The Underwood VRBO</div>
+            <div class="customer-meta">Turnovers · 11 cleans</div>
+          </div>
+          <div class="customer-amount">$1,540</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">Recent reviews</span>
+          <a href="#" class="section-link">All →</a>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">"Doris noticed our cat's water bowl was almost empty and refilled it. That's the kind of care you can't fake."</div>
+          <div class="review-author">— Sarah M., 2h ago</div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">"Came home from a trip and actually cried. Best money I spend monthly."</div>
+          <div class="review-author">— James R., 3 days ago</div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">"Maria left a hand-written note. Who does that anymore?"</div>
+          <div class="review-author">— Theresa K., 1 wk ago</div>
+        </div>
+      </div>
+
+      <div class="panel" style="background: linear-gradient(135deg, #1a1f1a 0%, #2d3d1a 100%); color: var(--cream); border: none;">
+        <div class="panel-header">
+          <span class="panel-title" style="color: var(--cream);">Doris's nudges</span>
+        </div>
+        <div style="font-size: 12px; opacity: 0.85; line-height: 1.6;">
+          <div style="padding: 8px 0; border-bottom: 0.5px solid rgba(245,241,232,0.15);">
+            <div style="color: var(--moss); margin-bottom: 2px;">💡 Upsell opportunity</div>
+            8 weekly customers haven't tried the deep clean. Send a $50 off offer?
+          </div>
+          <div style="padding: 8px 0; border-bottom: 0.5px solid rgba(245,241,232,0.15);">
+            <div style="color: var(--moss); margin-bottom: 2px;">📍 Route insight</div>
+            Tuesday's route has 38 mi between stops. Reorder?
+          </div>
+          <div style="padding: 8px 0;">
+            <div style="color: var(--moss); margin-bottom: 2px;">🎂 Heads up</div>
+            Maria's 4-year work anniversary is May 12.
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="demo-banner">
+  Admin · Demo
+  <a href="00-index.html">All views →</a>
+</div>
+
+</body>
+</html>
