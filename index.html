@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Simply Clean — Demo overview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f1e8;
+    --cream-dark: #ebe5d6;
+    --ink: #1a1f1a;
+    --ink-soft: #4a544a;
+    --ink-muted: #8a8f85;
+    --moss: #7ba045;
+    --moss-dark: #5a7a30;
+    --moss-deep: #2d3d1a;
+    --moss-light: #e8efd9;
+    --line: rgba(26, 31, 26, 0.12);
+    --line-soft: rgba(26, 31, 26, 0.06);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0.1 0 0 0 0 0.12 0 0 0 0 0.1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .container {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 60px 32px 80px;
+  }
+  @media (max-width: 700px) { .container { padding: 40px 20px 60px; } }
+
+  /* Header strip */
+  .top {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+  }
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: var(--moss);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--cream);
+    font-weight: 600;
+    font-style: italic;
+  }
+  .demo-tag {
+    background: var(--moss-light);
+    color: var(--moss-deep);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  /* Intro */
+  .intro {
+    max-width: 720px;
+    margin-bottom: 60px;
+  }
+  .eyebrow {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--moss-dark);
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(40px, 6vw, 64px);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+  h1 em { font-style: italic; color: var(--moss-dark); font-weight: 300; }
+  .lede {
+    font-size: 17px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .lede strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .pitch-card {
+    background: var(--moss-deep);
+    color: var(--cream);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .pitch-card::after {
+    content: '';
+    position: absolute;
+    right: -40px; bottom: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(123,160,69,0.25) 0%, transparent 60%);
+  }
+  .pitch-quote {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    line-height: 1.4;
+    font-style: italic;
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .pitch-quote em {
+    color: var(--moss);
+    font-weight: 400;
+  }
+  .pitch-attr {
+    font-size: 13px;
+    color: var(--moss);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    position: relative;
+  }
+
+  /* Walkthrough section */
+  .section-label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--moss-dark);
+    margin-bottom: 12px;
+  }
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .section-sub {
+    color: var(--ink-soft);
+    font-size: 15px;
+    margin-bottom: 32px;
+    max-width: 600px;
+  }
+
+  /* Surfaces grid */
+  .surfaces {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  @media (max-width: 700px) {
+    .surfaces { grid-template-columns: 1fr; }
+  }
+
+  .surface {
+    background: var(--cream);
+    border: 0.5px solid var(--line);
+    border-radius: 18px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.2s ease;
+  }
+  .surface:hover {
+    border-color: var(--moss);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(26,31,26,0.06);
+  }
+
+  .surface-preview {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+    background: var(--cream-dark);
+    border-bottom: 0.5px solid var(--line);
+  }
+  .surface-preview::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, var(--cream) 100%);
+    pointer-events: none;
+  }
+
+  /* Preview variants — mini illustrations */
+  .preview-marketing {
+    background: linear-gradient(135deg, #f5f1e8 0%, #ebe5d6 100%);
+    padding: 24px;
+    display: flex; flex-direction: column;
+    gap: 12px;
+  }
+  .preview-marketing .mock-line-thick {
+    height: 24px;
+    background: var(--ink);
+    border-radius: 4px;
+    width: 70%;
+  }
+  .preview-marketing .mock-line {
+    height: 8px;
+    background: var(--ink-muted);
+    opacity: 0.3;
+    border-radius: 4px;
+    width: 100%;
+  }
+  .preview-marketing .mock-line-short {
+    height: 8px;
+    background: var(--ink-muted);
+    opacity: 0.3;
+    border-radius: 4px;
+    width: 60%;
+  }
+  .preview-marketing .mock-btn {
+    background: var(--moss);
+    height: 28px;
+    width: 110px;
+    border-radius: 100px;
+    margin-top: 4px;
+  }
+
+  .preview-booking {
+    padding: 20px;
+    background: var(--cream);
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .preview-booking .mock-stepper {
+    display: flex; gap: 6px;
+    margin-bottom: 8px;
+  }
+  .preview-booking .mock-step-dot {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--cream-dark);
+  }
+  .preview-booking .mock-step-dot.active { background: var(--ink); }
+  .preview-booking .mock-step-dot.done { background: var(--moss); }
+  .preview-booking .mock-tiles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .preview-booking .mock-tile {
+    background: var(--cream-dark);
+    height: 52px;
+    border-radius: 8px;
+  }
+  .preview-booking .mock-tile.selected {
+    background: var(--moss-light);
+    border: 1px solid var(--moss);
+  }
+  .preview-booking .mock-pills {
+    display: flex; gap: 6px;
+    margin-top: 4px;
+  }
+  .preview-booking .mock-pill {
+    height: 22px; width: 60px;
+    background: var(--cream-dark);
+    border-radius: 100px;
+  }
+  .preview-booking .mock-pill.active { background: var(--ink); }
+
+  .preview-portal {
+    padding: 0;
+    background: var(--moss-deep);
+    color: var(--cream);
+    height: 100%;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 24px;
+  }
+  .preview-portal .pp-eyebrow {
+    font-size: 10px;
+    color: var(--moss);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+  }
+  .preview-portal .pp-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    margin-bottom: 4px;
+  }
+  .preview-portal .pp-sub {
+    font-size: 12px;
+    opacity: 0.7;
+    margin-bottom: 12px;
+  }
+  .preview-portal .pp-crew {
+    display: flex; gap: 8px; align-items: center;
+    padding: 10px 0;
+    border-top: 0.5px solid rgba(245,241,232,0.15);
+    border-bottom: 0.5px solid rgba(245,241,232,0.15);
+  }
+  .preview-portal .pp-av {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--moss);
+    color: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+  }
+  .preview-portal .pp-av.s2 { margin-left: -10px; }
+  .preview-portal .pp-text { font-size: 11px; flex: 1; }
+  .preview-portal .pp-status {
+    background: var(--moss);
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .preview-employee {
+    padding: 18px;
+    background: var(--cream);
+  }
+  .preview-employee .pe-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    margin-bottom: 6px;
+  }
+  .preview-employee .pe-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .preview-employee .pe-num.done {
+    background: var(--moss);
+  }
+  .preview-employee .pe-num.next {
+    background: var(--cream);
+    border: 1.5px solid var(--moss);
+    color: var(--moss-deep);
+  }
+  .preview-employee .pe-card {
+    flex: 1;
+    background: var(--cream-dark);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+  .preview-employee .pe-card.active {
+    background: var(--moss-light);
+    border: 1px solid var(--moss);
+  }
+  .preview-employee .pe-time {
+    font-size: 9px;
+    color: var(--ink-muted);
+  }
+
+  .preview-admin {
+    padding: 16px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    background: var(--cream);
+  }
+  .preview-admin .pa-metric {
+    background: var(--cream-dark);
+    border-radius: 8px;
+    padding: 10px;
+  }
+  .preview-admin .pa-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-muted);
+    margin-bottom: 4px;
+  }
+  .preview-admin .pa-value {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 500;
+  }
+  .preview-admin .pa-grid {
+    grid-column: span 2;
+    background: var(--cream-dark);
+    border-radius: 8px;
+    padding: 10px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+  }
+  .preview-admin .pa-cell {
+    aspect-ratio: 1;
+    border-radius: 3px;
+    background: var(--cream);
+  }
+  .preview-admin .pa-cell.l1 { background: #eaf3de; }
+  .preview-admin .pa-cell.l2 { background: #c0dd97; }
+  .preview-admin .pa-cell.l3 { background: #97c459; }
+
+  .preview-careers {
+    background: var(--moss-deep);
+    color: var(--cream);
+    padding: 24px;
+    height: 100%;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .preview-careers .pc-eyebrow {
+    background: rgba(123,160,69,0.15);
+    color: var(--moss);
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 10px;
+    align-self: flex-start;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .preview-careers .pc-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+  .preview-careers .pc-title em { color: var(--moss); font-style: italic; }
+  .preview-careers .pc-chips {
+    display: flex; gap: 4px; flex-wrap: wrap;
+  }
+  .preview-careers .pc-chip {
+    background: rgba(123,160,69,0.15);
+    color: var(--moss);
+    padding: 3px 9px;
+    border-radius: 100px;
+    font-size: 10px;
+  }
+
+  .surface-content {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .surface-meta {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 11px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 12px;
+  }
+  .surface-meta .num {
+    background: var(--moss-light);
+    color: var(--moss-deep);
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .surface-title {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .surface-desc {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    flex: 1;
+  }
+  .surface-cta {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 14px;
+    border-top: 0.5px solid var(--line);
+    font-size: 12px;
+  }
+  .surface-tags {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .surface-tag {
+    background: var(--cream-dark);
+    color: var(--ink-soft);
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-size: 10px;
+  }
+  .surface-arrow {
+    color: var(--moss-dark);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* What's missing */
+  .next-section {
+    background: var(--cream-dark);
+    border-radius: 20px;
+    padding: 40px;
+  }
+  @media (max-width: 700px) { .next-section { padding: 28px; } }
+  .next-list {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .next-item {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 18px;
+    border: 0.5px solid var(--line);
+  }
+  .next-icon { font-size: 20px; margin-bottom: 8px; }
+  .next-title {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .next-desc {
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 60px;
+    padding-top: 32px;
+    border-top: 0.5px solid var(--line);
+    font-size: 12px;
+    color: var(--ink-muted);
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="top">
+    <div class="logo">
+      <div class="logo-mark">S</div>
+      <span>Simply Clean</span>
+    </div>
+    <div class="demo-tag">🎨 Design prototype · v1</div>
+  </div>
+
+  <div class="intro">
+    <div class="eyebrow">For Doris</div>
+    <h1>What if Simply Clean<br/>worked <em>like this</em>?</h1>
+    <p class="lede">
+      Hi Doris — Lara here. I had Claude mock up what your business could look like with software handling the bookings, scheduling, and back-office work.
+    </p>
+    <p class="lede">
+      <strong>None of this is real yet</strong> — these are clickable demos to give you a feel. Walk through each screen below. Click around. Imagine yourself using it. Then tell me which parts feel right and which don't.
+    </p>
+  </div>
+
+  <div class="pitch-card">
+    <p class="pitch-quote">"The software should disappear. <em>The care</em> is what people pay you for."</p>
+    <div class="pitch-attr">— The whole idea, in one line</div>
+  </div>
+
+  <div class="section-label">The walkthrough</div>
+  <h2>Six screens, three audiences.</h2>
+  <p class="section-sub">Click any screen to open the live demo. They link to each other so you can move around naturally — like a real customer or employee would.</p>
+
+  <div class="surfaces">
+
+    <!-- Marketing site -->
+    <a href="05-marketing.html" class="surface">
+      <div class="surface-preview">
+        <div class="preview-marketing">
+          <div class="mock-line-thick"></div>
+          <div class="mock-line"></div>
+          <div class="mock-line-short"></div>
+          <div class="mock-btn"></div>
+        </div>
+      </div>
+      <div class="surface-content">
+        <div class="surface-meta"><div class="num">1</div> For new customers</div>
+        <div class="surface-title">Marketing homepage</div>
+        <div class="surface-desc">The front door. Tells your story, shows reviews, makes booking obvious. SEO-tuned for "house cleaning White Salmon" and the surrounding towns.</div>
+        <div class="surface-cta">
+          <div class="surface-tags">
+            <span class="surface-tag">SEO</span>
+            <span class="surface-tag">Reviews</span>
+            <span class="surface-tag">Pricing</span>
+          </div>
+          <span class="surface-arrow">Open →</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Booking flow -->
+    <a href="01-booking.html" class="surface">
+      <div class="surface-preview">
+        <div class="preview-booking">
+          <div class="mock-stepper">
+            <div class="mock-step-dot done"></div>
+            <div class="mock-step-dot done"></div>
+            <div class="mock-step-dot active"></div>
+            <div class="mock-step-dot"></div>
+            <div class="mock-step-dot"></div>
+          </div>
+          <div class="mock-tiles">
+            <div class="mock-tile selected"></div>
+            <div class="mock-tile"></div>
+            <div class="mock-tile"></div>
+          </div>
+          <div class="mock-pills">
+            <div class="mock-pill active"></div>
+            <div class="mock-pill"></div>
+            <div class="mock-pill"></div>
+          </div>
+        </div>
+      </div>
+      <div class="surface-content">
+        <div class="surface-meta"><div class="num">2</div> For new customers</div>
+        <div class="surface-title">Booking flow</div>
+        <div class="surface-desc">Service → home details → schedule → add-ons → pay. Five steps, ~60 seconds. Frequency discounts encourage recurring. Add-ons (fridge, windows, herbal finish) show up at the perfect moment.</div>
+        <div class="surface-cta">
+          <div class="surface-tags">
+            <span class="surface-tag">Online payment</span>
+            <span class="surface-tag">Add-ons</span>
+            <span class="surface-tag">Recurring</span>
+          </div>
+          <span class="surface-arrow">Open →</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Customer portal -->
+    <a href="02-portal.html" class="surface">
+      <div class="surface-preview">
+        <div class="preview-portal">
+          <div class="pp-eyebrow">Next clean · in 2 days</div>
+          <div class="pp-title">Thursday, May 7</div>
+          <div class="pp-sub">10:00 AM · Standard clean</div>
+          <div class="pp-crew">
+            <div style="display: flex;">
+              <div class="pp-av">M</div>
+              <div class="pp-av s2">C</div>
+            </div>
+            <div class="pp-text">Maria & Carla on the way</div>
+            <div class="pp-status">Confirmed</div>
+          </div>
+        </div>
+      </div>
+      <div class="surface-content">
+        <div class="surface-meta"><div class="num">3</div> For returning customers</div>
+        <div class="surface-title">Customer portal</div>
+        <div class="surface-desc">Their home base. See next clean, reschedule (with fees), add upsells before the visit, view history, manage preferences. The upsell strip is where most add-on revenue happens.</div>
+        <div class="surface-cta">
+          <div class="surface-tags">
+            <span class="surface-tag">Reschedule</span>
+            <span class="surface-tag">Upsells</span>
+            <span class="surface-tag">History</span>
+          </div>
+          <span class="surface-arrow">Open →</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Employee view -->
+    <a href="03-employee.html" class="surface">
+      <div class="surface-preview">
+        <div class="preview-employee">
+          <div class="pe-row">
+            <div class="pe-num next">1</div>
+            <div class="pe-card active">Sarah M. <div class="pe-time">10:00 AM · White Salmon</div></div>
+          </div>
+          <div class="pe-row">
+            <div class="pe-num">2</div>
+            <div class="pe-card">James R. <div class="pe-time">1:30 PM · Hood River</div></div>
+          </div>
+          <div class="pe-row">
+            <div class="pe-num">3</div>
+            <div class="pe-card">Underwood VRBO <div class="pe-time">4:00 PM · Bingen</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="surface-content">
+        <div class="surface-meta"><div class="num">4</div> For Maria, Carla, Jen</div>
+        <div class="surface-title">Crew day view</div>
+        <div class="surface-desc">Their route, gate codes, pet info, client preferences — all in one place. Print-friendly so they can take it in the car. Texts when reschedules happen.</div>
+        <div class="surface-cta">
+          <div class="surface-tags">
+            <span class="surface-tag">Routes</span>
+            <span class="surface-tag">Print-ready</span>
+            <span class="surface-tag">Mobile</span>
+          </div>
+          <span class="surface-arrow">Open →</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Admin -->
+    <a href="04-admin.html" class="surface">
+      <div class="surface-preview">
+        <div class="preview-admin">
+          <div class="pa-metric">
+            <div class="pa-label">Revenue</div>
+            <div class="pa-value">$4,820</div>
+          </div>
+          <div class="pa-metric">
+            <div class="pa-label">Cleans</div>
+            <div class="pa-value">31</div>
+          </div>
+          <div class="pa-grid">
+            <div class="pa-cell l3"></div><div class="pa-cell l2"></div><div class="pa-cell l3"></div><div class="pa-cell l3"></div><div class="pa-cell l2"></div><div class="pa-cell"></div><div class="pa-cell"></div>
+            <div class="pa-cell l2"></div><div class="pa-cell l3"></div><div class="pa-cell l2"></div><div class="pa-cell l3"></div><div class="pa-cell l3"></div><div class="pa-cell"></div><div class="pa-cell"></div>
+            <div class="pa-cell l1"></div><div class="pa-cell l2"></div><div class="pa-cell l2"></div><div class="pa-cell l1"></div><div class="pa-cell"></div><div class="pa-cell"></div><div class="pa-cell"></div>
+          </div>
+        </div>
+      </div>
+      <div class="surface-content">
+        <div class="surface-meta"><div class="num">5</div> For Doris</div>
+        <div class="surface-title">Admin dashboard</div>
+        <div class="surface-desc">Where you run the business. Revenue, schedules, applications, reschedule requests, comms going out, customer reviews — all in one place. The most used screen by far.</div>
+        <div class="surface-cta">
+          <div class="surface-tags">
+            <span class="surface-tag">Schedule</span>
+            <span class="surface-tag">Inbox</span>
+            <span class="surface-tag">Reports</span>
+          </div>
+          <span class="surface-arrow">Open →</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- Careers -->
+    <a href="06-careers.html" class="surface">
+      <div class="surface-preview">
+        <div class="preview-careers">
+          <div class="pc-eyebrow">🌿 We're hiring</div>
+          <div class="pc-title">Work where<br/><em>the work matters.</em></div>
+          <div class="pc-chips">
+            <span class="pc-chip">$22–28/hr</span>
+            <span class="pc-chip">Mileage paid</span>
+            <span class="pc-chip">PTO day 1</span>
+          </div>
+        </div>
+      </div>
+      <div class="surface-content">
+        <div class="surface-meta"><div class="num">6</div> For applicants</div>
+        <div class="surface-title">Careers page</div>
+        <div class="surface-desc">Where new crew members find you. Honest about what the work is, generous about the pay and perks, friendly about the application. Maria's quote does most of the work.</div>
+        <div class="surface-cta">
+          <div class="surface-tags">
+            <span class="surface-tag">Hiring</span>
+            <span class="surface-tag">Application</span>
+            <span class="surface-tag">Perks</span>
+          </div>
+          <span class="surface-arrow">Open →</span>
+        </div>
+      </div>
+    </a>
+
+  </div>
+
+  <div class="next-section">
+    <div class="section-label">If you like this</div>
+    <h2 style="font-size: 26px; max-width: none;">Things we'd add in v2.</h2>
+    <p class="section-sub" style="margin-bottom: 0;">A few moves I'd make once the core is real:</p>
+
+    <div class="next-list">
+      <div class="next-item">
+        <div class="next-icon">📸</div>
+        <div class="next-title">Before / after photos</div>
+        <div class="next-desc">Per-clean photo upload. Doubles as marketing content and insurance protection.</div>
+      </div>
+      <div class="next-item">
+        <div class="next-icon">💬</div>
+        <div class="next-title">Private feedback loop</div>
+        <div class="next-desc">"How did Maria do today?" — only Doris sees it. Catches issues early, builds preference data.</div>
+      </div>
+      <div class="next-item">
+        <div class="next-icon">🎁</div>
+        <div class="next-title">Tip flow + referral codes</div>
+        <div class="next-desc">Tip after the clean. Refer a neighbor → both get $25 credit. Compounds over time.</div>
+      </div>
+      <div class="next-item">
+        <div class="next-icon">📦</div>
+        <div class="next-title">Supply tracker</div>
+        <div class="next-desc">Mark "low on Mrs. Meyers" from the field. Doris orders before things run out.</div>
+      </div>
+      <div class="next-item">
+        <div class="next-icon">📨</div>
+        <div class="next-title">SMS thread per client</div>
+        <div class="next-desc">Every text routes through one place. Doris never loses context across clients.</div>
+      </div>
+      <div class="next-item">
+        <div class="next-icon">🌿</div>
+        <div class="next-title">Seasonal promos</div>
+        <div class="next-desc">Auto-emailed: spring deep clean, holiday prep, post-renovation. Re-engagement for monthly clients.</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Built as a design prototype · Simply Clean LLC · White Salmon, WA · 2026
+  </footer>
+</div>
+
+</body>
+</html>
